@@ -1,0 +1,2101 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>پنل کاربری انتخاب دروس الکتیو</title>
+
+
+    <style>
+        :root {
+
+            --blue: #2563eb;
+            --blue-dark: #1d4ed8;
+
+            --green: #16a34a;
+            --green-dark: #15803d;
+
+            --red: #dc2626;
+            --red-dark: #b91c1c;
+
+            --purple: #9333ea;
+            --purple-dark: #7e22ce;
+
+            --cyan: #0891b2;
+            --cyan-dark: #0e7490;
+
+            --text-main: #0f172a;
+            --text-soft: #64748b;
+            --text-muted: #94a3b8;
+
+            --border: #e2e8f0;
+
+            --white: #ffffff;
+
+        }
+
+
+        * {
+
+            box-sizing: border-box;
+
+        }
+
+
+        html {
+
+            scroll-behavior: smooth;
+
+        }
+
+
+        body {
+
+            margin: 0;
+
+            padding: 25px 16px;
+
+            font-family: Tahoma, Arial, sans-serif;
+
+            color: var(--text-main);
+
+            line-height: 1.9;
+
+            min-height: 100vh;
+
+            background:
+
+                linear-gradient(rgba(248, 250, 252, 0.88),
+                    rgba(241, 245, 249, 0.92)),
+
+                url("../static/images/panel-hero.webp");
+
+            background-size: cover;
+
+            background-position: center;
+
+            background-attachment: fixed;
+
+        }
+
+
+        .page-shell {
+
+            width: 100%;
+
+            max-width: 1150px;
+
+            margin: 0 auto;
+
+        }
+
+
+        .panel-container {
+
+            overflow: hidden;
+
+            background: rgba(255, 255, 255, 0.94);
+
+            border-radius: 30px;
+
+            border: 1px solid rgba(255, 255, 255, 0.9);
+
+            box-shadow:
+
+                0 25px 70px rgba(15, 23, 42, 0.14);
+
+        }
+
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .panel-header {
+
+            position: relative;
+
+            min-height: 310px;
+
+            overflow: hidden;
+
+            display: flex;
+
+            align-items: flex-end;
+
+            padding: 30px;
+
+            background: #eaf2ff;
+
+        }
+
+
+        .panel-header-image {
+
+            position: absolute;
+
+            inset: 0;
+
+            width: 100%;
+
+            height: 100%;
+
+            object-fit: cover;
+
+        }
+
+
+        .panel-header-overlay {
+
+            position: absolute;
+
+            inset: 0;
+
+            background:
+
+                linear-gradient(90deg,
+                    rgba(15, 23, 42, 0.78),
+                    rgba(15, 23, 42, 0.35),
+                    rgba(15, 23, 42, 0.08));
+
+        }
+
+
+        .top-bar {
+
+            position: relative;
+
+            z-index: 2;
+
+            width: 100%;
+
+            display: flex;
+
+            align-items: flex-end;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+            flex-wrap: wrap;
+
+        }
+
+
+        .title-wrap {
+
+            color: white;
+
+        }
+
+
+        .hero-strip {
+
+            display: flex;
+
+            gap: 8px;
+
+            flex-wrap: wrap;
+
+            margin-bottom: 12px;
+
+        }
+
+
+        .hero-badge {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            padding: 7px 13px;
+
+            border-radius: 999px;
+
+            background: rgba(255, 255, 255, 0.16);
+
+            border: 1px solid rgba(255, 255, 255, 0.25);
+
+            backdrop-filter: blur(8px);
+
+            color: white;
+
+            font-size: 12px;
+
+            font-weight: 800;
+
+        }
+
+
+        .hero-badge.secondary {
+
+            background: rgba(22, 163, 74, 0.28);
+
+        }
+
+
+        .title-wrap h1 {
+
+            margin: 0 0 8px;
+
+            font-size: 34px;
+
+            font-weight: 900;
+
+        }
+
+
+        .title-wrap p {
+
+            margin: 0;
+
+            max-width: 650px;
+
+            font-size: 14px;
+
+            color: rgba(255, 255, 255, 0.88);
+
+        }
+
+
+        .header-action {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 8px;
+
+            min-width: 140px;
+
+        }
+
+
+        .header-note {
+
+            color: rgba(255, 255, 255, 0.75);
+
+            text-align: center;
+
+            font-size: 11px;
+
+        }
+
+
+        /* =========================
+           MAIN CONTENT
+        ========================= */
+
+        .content {
+
+            padding: 32px;
+
+        }
+
+
+        .section-block+.section-block {
+
+            margin-top: 36px;
+
+        }
+
+
+        .section-heading-row {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 12px;
+
+            flex-wrap: wrap;
+
+            margin-bottom: 18px;
+
+        }
+
+
+        .section-title {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            margin: 0;
+
+            font-size: 20px;
+
+            font-weight: 900;
+
+        }
+
+
+        .section-title::before {
+
+            content: "";
+
+            width: 11px;
+
+            height: 11px;
+
+            border-radius: 50%;
+
+            background:
+
+                linear-gradient(135deg,
+                    var(--blue),
+                    var(--purple));
+
+            box-shadow:
+
+                0 0 0 6px rgba(37, 99, 235, 0.10);
+
+        }
+
+
+        .section-chip {
+
+            padding: 7px 12px;
+
+            border-radius: 999px;
+
+            border: 1px solid var(--border);
+
+            background: #f8fafc;
+
+            color: var(--text-soft);
+
+            font-size: 11px;
+
+            font-weight: 800;
+
+        }
+
+
+        /* =========================
+           ALERT
+        ========================= */
+
+        .alert-stack {
+
+            display: grid;
+
+            gap: 10px;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .alert {
+
+            padding: 14px;
+
+            border-radius: 16px;
+
+            background: #ecfdf5;
+
+            border: 1px solid #bbf7d0;
+
+            color: #166534;
+
+            text-align: center;
+
+            font-weight: 800;
+
+        }
+
+
+        /* =========================
+           STUDENT INFO
+        ========================= */
+
+        .info-box {
+
+            position: relative;
+
+            overflow: hidden;
+
+            padding: 25px;
+
+            border-radius: 25px;
+
+            border: 1px solid var(--border);
+
+            background: #ffffff;
+
+            box-shadow:
+
+                0 12px 30px rgba(15, 23, 42, 0.06);
+
+        }
+
+
+        .info-decoration {
+
+            position: absolute;
+
+            left: 0;
+
+            bottom: 0;
+
+            width: 260px;
+
+            height: 100%;
+
+            opacity: 0.10;
+
+            object-fit: cover;
+
+            pointer-events: none;
+
+        }
+
+
+        .info-box-inner {
+
+            position: relative;
+
+            z-index: 1;
+
+        }
+
+
+        .stats-row {
+
+            display: grid;
+
+            grid-template-columns: repeat(4, 1fr);
+
+            gap: 14px;
+
+        }
+
+
+        .stat-card {
+
+            position: relative;
+
+            overflow: hidden;
+
+            padding: 17px;
+
+            border-radius: 20px;
+
+            background: #f8fafc;
+
+            border: 1px solid #e7edf5;
+
+            transition: 0.2s;
+
+        }
+
+
+        .stat-card:hover {
+
+            transform: translateY(-4px);
+
+            background: white;
+
+            box-shadow:
+
+                0 14px 30px rgba(15, 23, 42, 0.08);
+
+        }
+
+
+        .stat-top {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 8px;
+
+            margin-bottom: 10px;
+
+        }
+
+
+        .stat-label {
+
+            font-size: 12px;
+
+            font-weight: 800;
+
+            color: var(--text-soft);
+
+        }
+
+
+        .stat-icon {
+
+            width: 34px;
+
+            height: 34px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 11px;
+
+            background: white;
+
+            border: 1px solid var(--border);
+
+        }
+
+
+        .stat-value {
+
+            font-size: 15px;
+
+            font-weight: 900;
+
+            word-break: break-word;
+
+        }
+
+
+        .action-links {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 10px;
+
+            margin-top: 20px;
+
+        }
+
+
+        /* =========================
+           BUTTONS
+        ========================= */
+
+        .btn {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 8px;
+
+            padding: 12px 18px;
+
+            border: none;
+
+            border-radius: 14px;
+
+            text-decoration: none;
+
+            cursor: pointer;
+
+            font-family: inherit;
+
+            font-size: 13px;
+
+            font-weight: 900;
+
+            transition: 0.2s;
+
+        }
+
+
+        .btn:hover {
+
+            transform: translateY(-2px);
+
+        }
+
+
+        .btn-blue {
+
+            background:
+
+                linear-gradient(135deg,
+                    var(--blue),
+                    var(--blue-dark));
+
+            color: white;
+
+        }
+
+
+        .btn-red {
+
+            background:
+
+                linear-gradient(135deg,
+                    #ef4444,
+                    var(--red));
+
+            color: white;
+
+        }
+
+
+        .btn-gray {
+
+            background:
+
+                rgba(255, 255, 255, 0.15);
+
+            border: 1px solid rgba(255, 255, 255, 0.25);
+
+            backdrop-filter: blur(8px);
+
+            color: white;
+
+        }
+
+
+        .btn-info {
+
+            background:
+
+                linear-gradient(135deg,
+                    var(--cyan),
+                    var(--cyan-dark));
+
+            color: white;
+
+        }
+
+
+        /* =========================
+           COURSES
+        ========================= */
+
+        .course-list {
+
+            display: grid;
+
+            gap: 16px;
+
+        }
+
+
+        .course-item {
+
+            position: relative;
+
+            overflow: hidden;
+
+            border-radius: 24px;
+
+            padding: 21px;
+
+            border-right: 7px solid #ccc;
+
+            transition: 0.25s;
+
+        }
+
+
+        .course-item:hover {
+
+            transform: translateY(-4px);
+
+            box-shadow:
+
+                0 18px 38px rgba(15, 23, 42, 0.10);
+
+        }
+
+
+        .course-header {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 13px;
+
+            margin-bottom: 12px;
+
+        }
+
+
+        .status-badge {
+
+            width: 50px;
+
+            height: 50px;
+
+            min-width: 50px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 16px;
+
+            background: rgba(255, 255, 255, 0.85);
+
+            font-size: 19px;
+
+            box-shadow:
+
+                0 6px 16px rgba(15, 23, 42, 0.08);
+
+        }
+
+
+        .course-title-text {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 3px;
+
+            flex: 1;
+
+        }
+
+
+        .course-title-text span {
+
+            font-size: 16px;
+
+            font-weight: 900;
+
+        }
+
+
+        .course-title-text small {
+
+            font-size: 11px;
+
+            color: var(--text-soft);
+
+        }
+
+
+        .course-details {
+
+            margin-right: 63px;
+
+            font-size: 13px;
+
+            color: #334155;
+
+        }
+
+
+        .course-footer {
+
+            display: flex;
+
+            gap: 8px;
+
+            flex-wrap: wrap;
+
+            margin-top: 13px;
+
+            margin-right: 63px;
+
+        }
+
+
+        .course-footer-chip {
+
+            padding: 5px 10px;
+
+            border-radius: 999px;
+
+            background: rgba(255, 255, 255, 0.55);
+
+            border: 1px solid rgba(255, 255, 255, 0.85);
+
+            font-size: 10px;
+
+            font-weight: 800;
+
+            color: #475569;
+
+        }
+
+
+        /* =========================
+           COURSE COLOR LOGIC
+           دست نخورده
+        ========================= */
+
+        .priority-empty {
+
+            border-right-color: var(--blue);
+
+            background:
+
+                linear-gradient(135deg,
+                    #eff6ff,
+                    #dbeafe);
+
+        }
+
+
+        .priority-reachable {
+
+            border-right-color: var(--green);
+
+            background:
+
+                linear-gradient(135deg,
+                    #f0fdf4,
+                    #dcfce7);
+
+        }
+
+
+        .priority-unreachable {
+
+            border-right-color: var(--red);
+
+            background:
+
+                linear-gradient(135deg,
+                    #fef2f2,
+                    #fee2e2);
+
+        }
+
+
+        .priority-accepted {
+
+            border-right-color: var(--green-dark);
+
+            background:
+
+                linear-gradient(135deg,
+                    #ecfdf5,
+                    #d1fae5);
+
+        }
+
+
+        .priority-no-gpa {
+
+            border-right-color: var(--purple);
+
+            background:
+
+                linear-gradient(135deg,
+                    #faf5ff,
+                    #f3e8ff);
+
+        }
+
+
+        /* =========================
+           EMPTY STATE
+        ========================= */
+
+        .empty-state {
+
+            padding: 25px;
+
+            border-radius: 22px;
+
+            background:
+
+                linear-gradient(135deg,
+                    #fff7ed,
+                    #fef3c7);
+
+            border: 1px solid #fde68a;
+
+            color: #92400e;
+
+            text-align: center;
+
+            font-weight: 800;
+
+        }
+
+
+        .danger-zone {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 10px;
+
+            margin-top: 18px;
+
+        }
+
+
+        .divider {
+
+            border: none;
+
+            height: 1px;
+
+            margin: 38px 0;
+
+            background:
+
+                linear-gradient(90deg,
+                    transparent,
+                    #cbd5e1,
+                    transparent);
+
+        }
+
+
+        /* =========================
+           RESULT
+        ========================= */
+
+        .result-card {
+
+            position: relative;
+
+            overflow: hidden;
+
+            padding: 20px;
+
+            border-radius: 25px;
+
+            background: white;
+
+            border: 1px solid var(--border);
+
+        }
+
+
+        .result-image {
+
+            position: absolute;
+
+            left: 0;
+
+            top: 0;
+
+            width: 240px;
+
+            height: 100%;
+
+            object-fit: cover;
+
+            opacity: 0.10;
+
+        }
+
+
+        .result-box {
+
+            position: relative;
+
+            z-index: 1;
+
+            padding: 28px;
+
+            border-radius: 22px;
+
+            background:
+
+                linear-gradient(135deg,
+                    #ecfdf5,
+                    #dcfce7);
+
+            border: 1px solid #bbf7d0;
+
+            color: #065f46;
+
+            text-align: center;
+
+            font-size: 16px;
+
+            font-weight: 900;
+
+        }
+
+
+        .result-subtext {
+
+            position: relative;
+
+            z-index: 1;
+
+            margin-top: 12px;
+
+            color: var(--text-soft);
+
+            text-align: center;
+
+            font-size: 12px;
+
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .panel-footer {
+
+            position: relative;
+
+            overflow: hidden;
+
+            padding: 30px;
+
+            background: #f8fafc;
+
+            border-top: 1px solid var(--border);
+
+        }
+
+
+        .footer-image {
+
+            position: absolute;
+
+            inset: 0;
+
+            width: 100%;
+
+            height: 100%;
+
+            object-fit: cover;
+
+            opacity: 0.07;
+
+        }
+
+
+        .footer-inner {
+
+            position: relative;
+
+            z-index: 1;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+            flex-wrap: wrap;
+
+        }
+
+
+        .footer-brand {
+
+            flex: 1;
+
+            min-width: 250px;
+
+        }
+
+
+        .footer-mini-badge {
+
+            display: inline-flex;
+
+            padding: 6px 12px;
+
+            border-radius: 999px;
+
+            background: #eff6ff;
+
+            border: 1px solid #dbeafe;
+
+            color: var(--blue-dark);
+
+            font-size: 11px;
+
+            font-weight: 900;
+
+        }
+
+
+        .footer-title {
+
+            margin: 10px 0 6px;
+
+            font-size: 17px;
+
+        }
+
+
+        .footer-subtitle {
+
+            margin: 0;
+
+            font-size: 12px;
+
+            color: var(--text-soft);
+
+            max-width: 600px;
+
+        }
+
+
+        .admin-contact-card {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 14px;
+
+            padding: 17px;
+
+            border-radius: 22px;
+
+            background: white;
+
+            border: 1px solid #dbeafe;
+
+            box-shadow:
+
+                0 10px 24px rgba(15, 23, 42, 0.06);
+
+        }
+
+
+        .admin-contact-badge {
+
+            width: 55px;
+
+            height: 55px;
+
+            min-width: 55px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 16px;
+
+            background: #e0f2fe;
+
+        }
+
+
+        .telegram-icon-img {
+
+            width: 25px;
+
+            height: 25px;
+
+            object-fit: contain;
+
+        }
+
+
+        .admin-contact-content {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 4px;
+
+        }
+
+
+        .admin-contact-label {
+
+            font-size: 11px;
+
+            font-weight: 900;
+
+            color: var(--blue-dark);
+
+        }
+
+
+        .admin-contact-title {
+
+            font-size: 13px;
+
+            font-weight: 900;
+
+        }
+
+
+        .admin-contact-note {
+
+            font-size: 11px;
+
+            color: var(--text-soft);
+
+        }
+
+
+        .admin-link-btn {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            margin-top: 8px;
+
+            padding: 9px 13px;
+
+            border-radius: 12px;
+
+            background: #229ED9;
+
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 11px;
+
+            font-weight: 900;
+
+        }
+
+
+        .footer-bottom-line {
+
+            position: relative;
+
+            z-index: 1;
+
+            margin-top: 22px;
+
+            padding-top: 15px;
+
+            border-top: 1px solid var(--border);
+
+            text-align: center;
+
+            font-size: 11px;
+
+            color: var(--text-muted);
+
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 900px) {
+
+            .stats-row {
+
+                grid-template-columns: repeat(2, 1fr);
+
+            }
+
+
+            .panel-header {
+
+                min-height: 280px;
+
+            }
+
+        }
+
+
+        @media (max-width: 650px) {
+
+            body {
+
+                padding: 10px;
+
+            }
+
+
+            .content {
+
+                padding: 20px 16px;
+
+            }
+
+
+            .panel-header {
+
+                min-height: 350px;
+
+                padding: 20px;
+
+            }
+
+
+            .top-bar {
+
+                align-items: stretch;
+
+            }
+
+
+            .header-action {
+
+                width: 100%;
+
+            }
+
+
+            .header-action .btn {
+
+                width: 100%;
+
+            }
+
+
+            .stats-row {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .course-details,
+
+            .course-footer {
+
+                margin-right: 0;
+
+            }
+
+
+            .course-header {
+
+                align-items: flex-start;
+
+                flex-wrap: wrap;
+
+            }
+
+
+            .action-links .btn,
+
+            .danger-zone .btn {
+
+                width: 100%;
+
+            }
+
+
+            .title-wrap h1 {
+
+                font-size: 26px;
+
+            }
+
+
+            .admin-contact-card {
+
+                width: 100%;
+
+                flex-direction: column;
+
+                align-items: flex-start;
+
+            }
+
+
+            .admin-link-btn {
+
+                width: 100%;
+
+            }
+
+
+            .info-decoration,
+
+            .result-image {
+
+                width: 150px;
+
+            }
+
+        }
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="page-shell">
+
+
+        <div class="panel-container">
+
+
+            <!-- =========================
+                 HEADER
+            ========================== -->
+
+            <div class="panel-header">
+
+
+                <img src="../static/images/panel-hero.webp" class="panel-header-image" alt="">
+
+
+                <div class="panel-header-overlay"></div>
+
+
+                <div class="top-bar">
+
+
+                    <div class="title-wrap">
+
+
+                        <div class="hero-strip">
+
+                            <div class="hero-badge">
+
+                                ✨ داشبورد دانشجو
+
+                            </div>
+
+
+                            <div class="hero-badge secondary">
+
+                                📘 مدیریت انتخاب دروس الکتیو
+
+                            </div>
+
+                        </div>
+
+
+                        <h1>
+
+                            پنل انتخاب دروس الکتیو
+
+                        </h1>
+
+
+                        <p>
+
+                            در این بخش می‌توانید وضعیت انتخاب‌ها،
+                            اطلاعات دانشجویی و نتیجه قبولی موقت خود را
+                            مشاهده و مدیریت کنید.
+
+                        </p>
+
+
+                    </div>
+
+
+                    <div class="header-action">
+
+
+                        <a href="/logout" class="btn btn-gray">
+
+                            خروج
+
+                        </a>
+
+
+                        <!--<div class="header-note">
+
+                            دسترسی دانشجو
+
+                        </div> -->
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+            <!-- =========================
+                 CONTENT
+            ========================== -->
+
+            <div class="content">
+
+
+                {% with messages = get_flashed_messages() %}
+
+                {% if messages %}
+
+                <div class="alert-stack">
+
+                    {% for message in messages %}
+
+                    <div class="alert">
+
+                        {{ message }}
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+                {% endif %}
+
+                {% endwith %}
+
+
+                <!-- =========================
+                     STUDENT INFO
+                ========================== -->
+
+                <div class="section-block">
+
+
+                    <div class="section-heading-row">
+
+
+                        <h3 class="section-title">
+
+                            اطلاعات دانشجو
+
+                        </h3>
+
+
+                        <div class="section-chip">
+
+                            نمایش اطلاعات پایه و تحصیلی
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="info-box">
+
+
+                        <img src="../static/images/panel-stats.webp" class="info-decoration" alt="">
+
+
+                        <div class="info-box-inner">
+
+
+                            <div class="stats-row">
+
+
+                                <div class="stat-card">
+
+                                    <div class="stat-top">
+
+                                        <div class="stat-label">
+
+                                            نام و نام خانوادگی
+
+                                        </div>
+
+                                        <div class="stat-icon">
+
+                                            👤
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="stat-value">
+
+                                        {{ user.full_name }}
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="stat-card">
+
+                                    <div class="stat-top">
+
+                                        <div class="stat-label">
+
+                                            شماره دانشجویی
+
+                                        </div>
+
+                                        <div class="stat-icon">
+
+                                            🆔
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="stat-value">
+
+                                        {{ user.student_id }}
+
+                                    </div>
+
+                                </div>
+
+
+                                <!--<div class="stat-card">
+
+                                    <div class="stat-top">
+
+                                        <div class="stat-label">
+
+                                            معدل تاثیرگذار
+
+                                        </div>
+
+                                        <div class="stat-icon">
+
+                                            📈
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="stat-value">
+
+                                        {{
+                                        effective_gpa
+                                        if effective_gpa is not none
+                                        else 'ثبت نشده'
+                                        }}
+
+                                    </div>
+
+                                </div>-->
+
+
+                                <div class="stat-card">
+
+                                    <div class="stat-top">
+
+                                        <div class="stat-label">
+
+                                            رتبه شما
+
+                                        </div>
+
+                                        <div class="stat-icon">
+
+                                            🏅
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="stat-value">
+
+                                        {{
+                                        user.rank
+                                        or 'محاسبه نشده'
+                                        }}
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+
+                            <div class="action-links">
+
+
+                                <!--<a href="/edit-info" class="btn btn-info">
+
+                                    ℹ️ ویرایش اطلاعات
+
+                                </a>-->
+
+
+                                <a href="/course-descriptions" class="btn btn-blue" style="
+                                        background:
+                                        linear-gradient(
+                                            135deg,
+                                            var(--purple),
+                                            var(--purple-dark)
+                                        );
+                                    ">
+
+                                    📚 توضیحات هر کلاس
+
+                                </a>
+
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- =========================
+                     SELECTED COURSES
+                ========================== -->
+
+                <div class="section-block">
+
+
+                    <div class="section-heading-row">
+
+
+                        <h3 class="section-title">
+
+                            اولویت‌های انتخابی
+
+                        </h3>
+
+
+                        <div class="section-chip">
+
+                            نمایش وضعیت همه انتخاب‌های ثبت‌شده
+
+                        </div>
+
+
+                    </div>
+
+
+                    {% if selected_list %}
+
+
+                    <div class="course-list">
+
+
+                        {% for course in selected_list %}
+
+
+                        <div class="
+                                        course-item
+                                        {{ course.status_class }}
+                                    ">
+
+
+                            <div class="course-header">
+
+
+                                <span class="status-badge">
+
+                                    {{ course.status_icon }}
+
+                                </span>
+
+
+                                <div class="course-title-text">
+
+
+                                    <span>
+
+                                        اولویت
+                                        {{ course.index }}:
+                                        {{ course.name }}
+
+                                    </span>
+
+
+                                    <small>
+
+                                        وضعیت این انتخاب
+                                        بر اساس داده فعلی سیستم
+
+                                    </small>
+
+
+                                </div>
+
+
+                            </div>
+
+
+                            <div class="course-details">
+
+                                {{ course.status_text }}
+
+                            </div>
+
+
+                            <div class="course-footer">
+
+
+                                <div class="course-footer-chip">
+
+                                    ثبت‌شده در لیست اولویت‌ها
+
+                                </div>
+
+
+                                <div class="course-footer-chip">
+
+                                    قابل بازبینی توسط سیستم
+
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+
+                        {% endfor %}
+
+
+                    </div>
+
+
+                    <div class="danger-zone">
+
+
+                        <a href="/clear-courses" class="btn btn-red">
+
+                            🗑️ حذف همه انتخاب‌ها
+
+                        </a>
+
+
+                    </div>
+
+
+                    {% else %}
+
+
+                    <div class="empty-state">
+
+
+                        شما هنوز هیچ درسی را انتخاب نکرده‌اید.
+
+                        <br>
+
+                        تا پیش از توقف فرایند انتخاب درس توسط ادمین،
+                        امکان انتخاب و حذف درس‌ها برای شما فراهم است.
+
+                        <br>
+
+                        می‌توانید بعد از انتخاب درس‌ها،
+                        درصورت راضی نبودن از نتایج فعلی،
+                        تا قبل از توقف فرایند انتخاب،
+                        اقدام به حذف درس‌ها و انتخاب مجدد آنها کنید.
+
+
+                    </div>
+
+
+                    <div style="
+                                margin-top: 14px;
+                            ">
+
+
+                        <a href="/select-courses" class="btn btn-blue" style="width: 100%;">
+
+                            📥 انتخاب ۵ درس
+
+                        </a>
+
+
+                    </div>
+
+
+                    {% endif %}
+
+
+                </div>
+
+
+                <hr class="divider">
+
+
+                <!-- =========================
+                     RESULT
+                ========================== -->
+
+                <div class="section-block">
+
+
+                    <div class="section-heading-row">
+
+
+                        <h3 class="section-title">
+
+                            نتیجه قبولی موقت
+
+                        </h3>
+
+
+                        <div class="section-chip">
+
+                            نمایش خروجی فعلی سیستم
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="result-card">
+
+
+                        <img src="../static/images/panel-result.webp" class="result-image" alt="">
+
+
+                        <div class="result-box">
+
+                            {{
+                            result_text
+                            or
+                            'نتیجه نهایی پس از تعیین معدل توسط ادمین مشخص خواهد شد.'
+                            }}
+
+                        </div>
+
+
+                        <div class="result-subtext">
+
+                            این نتیجه موقت است و ممکن است
+                            پس از تکمیل اطلاعات یا به‌روزرسانی داده‌های سامانه
+                            تغییر کند.
+
+                            با توقف فرایند انتخاب درس‌ها توسط ادمین،
+                            نتایج نهایی می‌شوند.
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+            <!-- =========================
+                 FOOTER
+            ========================== -->
+
+            <footer class="panel-footer">
+
+
+                <img src="../static/images/panel-medical.webp" class="footer-image" alt="">
+
+
+                <div class="footer-inner">
+
+
+                    <div class="footer-brand">
+
+
+                        <div class="footer-mini-badge">
+
+                            سامانه الکتیو
+
+                        </div>
+
+
+                        <h4 class="footer-title">
+
+                            ورودی مهر ۱۴۰۳ — پزشکی بهشتی
+
+                        </h4>
+
+                    </div>
+
+
+                    <div class="admin-contact-card">
+
+
+                        <div class="admin-contact-badge">
+
+
+                            <img src="../static/images/telegram.png" class="telegram-icon-img" alt="Telegram">
+
+
+                        </div>
+
+
+                        <div class="admin-contact-content">
+
+
+                            <div class="admin-contact-label">
+
+                                ارتباط با ادمین
+
+                            </div>
+
+
+                            <div class="admin-contact-title">
+
+                                در صورت وجود مشکل یا سوال
+
+                            </div>
+
+
+                            <div class="admin-contact-note">
+
+                                از طریق تلگرام پیام دهید.
+
+                            </div>
+
+
+                            <a href="https://t.me/amiralinmp" target="_blank" class="admin-link-btn">
+
+                                @amiralinmp
+
+                            </a>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="footer-bottom-line">
+
+                    سامانه انتخاب دروس الکتیو الکتیو
+                    — ورودی مهر ۱۴۰۳ پزشکی بهشتی
+
+                </div>
+
+
+            </footer>
+
+
+        </div>
+
+
+    </div>
+
+
+</body>
+
+</html>
