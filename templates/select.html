@@ -1,0 +1,1776 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>انتخاب اولویت‌ها</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-1: #eef4ff;
+            --bg-2: #f8fbff;
+            --bg-3: #eefaf2;
+
+            --card-bg: rgba(255, 255, 255, 0.94);
+            --shadow-lg: 0 24px 60px rgba(15, 23, 42, 0.12);
+            --shadow-md: 0 12px 30px rgba(15, 23, 42, 0.08);
+            --shadow-sm: 0 6px 18px rgba(15, 23, 42, 0.05);
+
+            --text-main: #0f172a;
+            --text-soft: #64748b;
+            --text-muted: #94a3b8;
+
+            --border-soft: #e2e8f0;
+
+            --blue-ui: #2563eb;
+            --blue-ui-dark: #1d4ed8;
+
+            --green-ui: #16a34a;
+            --green-ui-dark: #15803d;
+
+            --warn-bg: linear-gradient(135deg, #fff8db 0%, #fff3cd 100%);
+            --warn-border: #ffe08a;
+            --warn-text: #7c5a03;
+            --warn-accent: #f4b400;
+
+            --radius-xl: 30px;
+            --radius-lg: 22px;
+            --radius-md: 16px;
+            --radius-sm: 12px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Tahoma, sans-serif;
+            margin: 0;
+            padding: 28px;
+            color: var(--text-main);
+            min-height: 100vh;
+
+            background:
+                linear-gradient(
+                    rgba(238, 244, 255, 0.90),
+                    rgba(248, 251, 255, 0.92),
+                    rgba(238, 250, 242, 0.94)
+                ),
+                url("../static/images/select-hero.webp");
+
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before,
+        body::after {
+            content: "";
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        body::before {
+            width: 260px;
+            height: 260px;
+            background: rgba(37, 99, 235, 0.10);
+            top: -40px;
+            right: -40px;
+        }
+
+        body::after {
+            width: 240px;
+            height: 240px;
+            background: rgba(22, 163, 74, 0.08);
+            bottom: -30px;
+            left: -20px;
+        }
+
+        .page-shell {
+            position: relative;
+            z-index: 1;
+            max-width: 1050px;
+            margin: 0 auto;
+        }
+
+        .select-container {
+            background: var(--card-bg);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+
+            border: 1px solid rgba(255, 255, 255, 0.75);
+
+            border-radius: var(--radius-xl);
+
+            box-shadow: var(--shadow-lg);
+
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .selection-hero {
+            position: relative;
+
+            min-height: 280px;
+
+            display: flex;
+            align-items: flex-end;
+
+            overflow: hidden;
+
+            padding: 30px;
+        }
+
+        .selection-hero-image {
+            position: absolute;
+            inset: 0;
+
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+        }
+
+        .selection-hero-overlay {
+            position: absolute;
+            inset: 0;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(15, 23, 42, 0.78),
+                    rgba(15, 23, 42, 0.42),
+                    rgba(15, 23, 42, 0.12)
+                );
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+
+            width: 100%;
+        }
+
+        .top-badge-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            gap: 14px;
+            flex-wrap: wrap;
+
+            margin-bottom: 18px;
+        }
+
+        .top-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            background: rgba(255, 255, 255, 0.16);
+            color: white;
+
+            border: 1px solid rgba(255, 255, 255, 0.24);
+
+            backdrop-filter: blur(8px);
+
+            border-radius: 999px;
+
+            padding: 8px 14px;
+
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .top-badge.secondary {
+            background: rgba(22, 163, 74, 0.30);
+        }
+
+        .page-header {
+            position: relative;
+            z-index: 1;
+        }
+
+        .page-title {
+            margin: 0 0 10px 0;
+
+            font-size: 34px;
+            font-weight: 900;
+
+            color: white;
+
+            letter-spacing: -0.6px;
+            line-height: 1.3;
+        }
+
+        .page-subtitle {
+            margin: 0;
+
+            color: rgba(255, 255, 255, 0.88);
+
+            font-size: 15px;
+            line-height: 2;
+
+            max-width: 760px;
+        }
+
+        /* =========================
+           MAIN CONTENT
+        ========================= */
+
+        .content-area {
+            padding: 34px;
+        }
+
+        .notice-box {
+            position: relative;
+
+            background: var(--warn-bg);
+            color: var(--warn-text);
+
+            padding: 18px;
+
+            border-radius: 18px;
+
+            margin-bottom: 28px;
+
+            font-size: 13px;
+            line-height: 2;
+
+            border: 1px solid var(--warn-border);
+            border-right: 6px solid var(--warn-accent);
+
+            box-shadow: 0 10px 24px rgba(244, 180, 0, 0.10);
+        }
+
+        .notice-title {
+            font-size: 14px;
+            font-weight: 800;
+
+            margin-bottom: 6px;
+
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .grid-layout {
+            display: grid;
+
+            grid-template-columns: 1.3fr 0.9fr;
+
+            gap: 24px;
+
+            align-items: start;
+
+            margin-bottom: 28px;
+        }
+
+        .form-card,
+        .side-card,
+        .table-card,
+        .footer-card {
+            background: rgba(255, 255, 255, 0.88);
+
+            border: 1px solid rgba(226, 232, 240, 0.95);
+
+            border-radius: 24px;
+
+            box-shadow: var(--shadow-md);
+
+            overflow: hidden;
+        }
+
+        /* =========================
+           FORM
+        ========================= */
+
+        .form-card {
+            position: relative;
+
+            padding: 26px;
+        }
+
+        .form-card-image {
+            position: absolute;
+
+            left: 0;
+            bottom: 0;
+
+            width: 250px;
+            height: 100%;
+
+            object-fit: cover;
+
+            opacity: 0.07;
+
+            pointer-events: none;
+        }
+
+        .form-card-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .side-card {
+            position: relative;
+
+            padding: 22px;
+        }
+
+        .side-card-image {
+            position: absolute;
+
+            inset: 0;
+
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+
+            opacity: 0.06;
+
+            pointer-events: none;
+        }
+
+        .side-card-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-title {
+            margin: 0 0 8px 0;
+
+            font-size: 18px;
+            font-weight: 800;
+
+            color: #111827;
+        }
+
+        .card-subtitle {
+            margin: 0 0 18px 0;
+
+            color: var(--text-soft);
+
+            font-size: 13px;
+            line-height: 1.9;
+        }
+
+        .priorities-stack {
+            display: flex;
+            flex-direction: column;
+
+            gap: 16px;
+        }
+
+        .course-item {
+            position: relative;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #ffffff 0%,
+                    #fbfdff 100%
+                );
+
+            border: 1px solid #e5edf7;
+
+            border-radius: 18px;
+
+            padding: 16px;
+
+            box-shadow: 0 10px 20px rgba(15, 23, 42, 0.04);
+
+            transition:
+                transform 0.22s ease,
+                box-shadow 0.22s ease,
+                border-color 0.22s ease;
+        }
+
+        .course-item:hover {
+            transform: translateY(-2px);
+
+            box-shadow: 0 14px 26px rgba(15, 23, 42, 0.07);
+
+            border-color: #dbe6f4;
+        }
+
+        .course-item::before {
+            content: "";
+
+            position: absolute;
+
+            top: 12px;
+            left: 12px;
+
+            width: 10px;
+            height: 10px;
+
+            border-radius: 50%;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #93c5fd 0%,
+                    #2563eb 100%
+                );
+
+            opacity: 0.9;
+        }
+
+        .priority-head {
+            display: flex;
+
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 10px;
+
+            margin-bottom: 10px;
+        }
+
+        .priority-label {
+            display: flex;
+            align-items: center;
+
+            gap: 10px;
+
+            color: #1e293b;
+
+            font-weight: 800;
+            font-size: 14px;
+        }
+
+        .priority-number {
+            min-width: 34px;
+            height: 34px;
+
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 12px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #dbeafe 0%,
+                    #bfdbfe 100%
+                );
+
+            color: var(--blue-ui-dark);
+
+            font-size: 13px;
+            font-weight: 900;
+        }
+
+        .priority-hint {
+            font-size: 11px;
+
+            color: var(--text-muted);
+
+            font-weight: 700;
+
+            background: #f8fafc;
+
+            border: 1px solid #e2e8f0;
+
+            border-radius: 999px;
+
+            padding: 5px 10px;
+        }
+
+        label {
+            display: block;
+
+            margin-bottom: 8px;
+
+            color: #334155;
+
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .select-wrap {
+            position: relative;
+        }
+
+        .select-wrap::after {
+            content: "⌄";
+
+            position: absolute;
+
+            left: 16px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            color: #64748b;
+
+            font-size: 18px;
+
+            pointer-events: none;
+        }
+
+        select {
+            width: 100%;
+
+            padding: 14px 18px;
+            padding-left: 42px;
+
+            border: 1px solid #d6deea;
+
+            border-radius: 14px;
+
+            font-family: Tahoma, sans-serif;
+
+            font-size: 14px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #ffffff 0%,
+                    #fbfdff 100%
+                );
+
+            color: #111827;
+
+            transition: all 0.22s ease;
+
+            outline: none;
+
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+        }
+
+        select:hover {
+            border-color: #b7c5d8;
+
+            box-shadow:
+                0 0 0 3px rgba(148, 163, 184, 0.07);
+        }
+
+        select:focus {
+            border-color: #2563eb;
+
+            box-shadow:
+                0 0 0 4px rgba(37, 99, 235, 0.12),
+                0 10px 22px rgba(37, 99, 235, 0.08);
+
+            background: #fff;
+        }
+
+        option {
+            font-size: 13px;
+        }
+
+        /* =========================
+           BUTTONS
+        ========================= */
+
+        .button-group {
+            display: flex;
+
+            gap: 14px;
+
+            flex-wrap: wrap;
+
+            margin-top: 24px;
+        }
+
+        .btn {
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            gap: 8px;
+
+            padding: 14px 24px;
+
+            border-radius: 14px;
+
+            border: none;
+
+            font-family: inherit;
+
+            font-weight: 800;
+
+            cursor: pointer;
+
+            text-decoration: none;
+
+            text-align: center;
+
+            transition: all 0.22s ease;
+
+            font-size: 14px;
+
+            min-height: 52px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-green {
+            flex: 1 1 240px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #22c55e 0%,
+                    #16a34a 55%,
+                    #15803d 100%
+                );
+
+            color: white;
+
+            box-shadow: 0 12px 24px rgba(34, 197, 94, 0.22);
+        }
+
+        .btn-gray {
+            flex: 1 1 220px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #7c8797 0%,
+                    #5b6574 100%
+                );
+
+            color: white;
+
+            box-shadow: 0 12px 24px rgba(100, 116, 139, 0.18);
+        }
+
+        /* =========================
+           SIDE GUIDE
+        ========================= */
+
+        .side-list {
+            display: grid;
+
+            gap: 12px;
+        }
+
+        .info-chip {
+            background:
+                linear-gradient(
+                    180deg,
+                    rgba(255, 255, 255, 0.96),
+                    rgba(248, 251, 255, 0.96)
+                );
+
+            border: 1px solid #e2e8f0;
+
+            border-radius: 16px;
+
+            padding: 14px;
+
+            box-shadow: var(--shadow-sm);
+        }
+
+        .info-chip-title {
+            font-size: 13px;
+
+            font-weight: 800;
+
+            color: #1e293b;
+
+            margin-bottom: 6px;
+        }
+
+        .info-chip-text {
+            font-size: 12px;
+
+            line-height: 1.9;
+
+            color: var(--text-soft);
+        }
+
+        .mini-legend {
+            display: grid;
+
+            gap: 10px;
+
+            margin-top: 16px;
+        }
+
+        .mini-legend-item {
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            background: rgba(255, 255, 255, 0.94);
+
+            border: 1px solid #edf2f7;
+
+            border-radius: 14px;
+
+            padding: 12px 13px;
+        }
+
+        .mini-dot {
+            width: 12px;
+            height: 12px;
+
+            border-radius: 50%;
+
+            flex: 0 0 12px;
+        }
+
+        .dot-blue {
+            background: #007bff;
+        }
+
+        .dot-green {
+            background: #28a745;
+        }
+
+        .dot-red {
+            background: #dc3545;
+        }
+
+        .dot-black {
+            background: #000000;
+        }
+
+        .mini-legend-text {
+            font-size: 12px;
+
+            color: #475569;
+
+            line-height: 1.8;
+        }
+
+        /* =========================
+           TABLE
+        ========================= */
+
+        .soft-divider {
+            height: 1px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent 0%,
+                    rgba(148, 163, 184, 0.35) 20%,
+                    rgba(148, 163, 184, 0.35) 80%,
+                    transparent 100%
+                );
+
+            margin: 30px 0;
+        }
+
+        .table-card {
+            position: relative;
+
+            padding: 24px;
+
+            margin-bottom: 22px;
+        }
+
+        .table-background-image {
+            position: absolute;
+
+            left: 0;
+            top: 0;
+
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+
+            opacity: 0.045;
+
+            pointer-events: none;
+        }
+
+        .table-card-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .table-header {
+            display: flex;
+
+            align-items: end;
+            justify-content: space-between;
+
+            gap: 12px;
+
+            flex-wrap: wrap;
+
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            margin: 0 0 16px 0;
+
+            font-size: 22px;
+
+            color: #0f172a;
+
+            font-weight: 900;
+        }
+
+        .table-subtitle {
+            color: var(--text-soft);
+
+            font-size: 13px;
+
+            line-height: 1.9;
+
+            margin: 0;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+
+            border-radius: 18px;
+
+            border: 1px solid #e5e7eb;
+
+            box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
+
+            background: rgba(255, 255, 255, 0.94);
+        }
+
+        .guide-table {
+            width: 100%;
+
+            border-collapse: collapse;
+
+            font-size: 13px;
+
+            min-width: 640px;
+        }
+
+        .guide-table th {
+            background:
+                linear-gradient(
+                    180deg,
+                    #f8fafc 0%,
+                    #f1f5f9 100%
+                );
+
+            color: #334155;
+
+            padding: 15px 12px;
+
+            text-align: center;
+
+            font-weight: 800;
+
+            border-bottom: 1px solid #e5e7eb;
+
+            white-space: nowrap;
+        }
+
+        .guide-table td {
+            padding: 14px 12px;
+
+            text-align: center;
+
+            border-bottom: 1px solid #eef2f7;
+
+            vertical-align: middle;
+        }
+
+        .guide-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .course-name-cell {
+            font-weight: 800;
+
+            color: #1f2937;
+        }
+
+        .capacity-badge,
+        .remaining-badge {
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            min-width: 54px;
+
+            padding: 6px 10px;
+
+            border-radius: 999px;
+
+            background: rgba(255, 255, 255, 0.78);
+
+            border: 1px solid #e2e8f0;
+
+            font-weight: 800;
+
+            color: #334155;
+        }
+
+        /* =========================
+           LEGEND
+        ========================= */
+
+        .legend-box {
+            margin-top: 18px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    rgba(255, 255, 255, 0.95),
+                    rgba(248, 250, 252, 0.95)
+                );
+
+            border: 1px solid #e5e7eb;
+
+            border-radius: 18px;
+
+            padding: 18px;
+
+            font-size: 12px;
+
+            line-height: 2;
+
+            color: #374151;
+        }
+
+        .legend-title {
+            margin-bottom: 10px;
+
+            font-size: 13px;
+
+            font-weight: 800;
+
+            color: #111827;
+        }
+
+        .legend-grid {
+            display: grid;
+
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+
+            gap: 10px 14px;
+        }
+
+        .legend-item {
+            display: flex;
+
+            align-items: flex-start;
+
+            gap: 10px;
+
+            background: #ffffff;
+
+            border: 1px solid #edf2f7;
+
+            border-radius: 14px;
+
+            padding: 12px;
+        }
+
+        .legend-icon {
+            font-size: 15px;
+        }
+
+        .legend-text {
+            font-size: 12px;
+
+            color: #475569;
+
+            line-height: 1.9;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .footer-card {
+            padding: 18px 20px;
+        }
+
+        .footer-note {
+            margin: 0;
+
+            color: #64748b;
+
+            font-size: 12px;
+
+            line-height: 2;
+        }
+
+        /* =========================
+           منطق رنگ‌ها دقیقاً حفظ شده
+        ========================= */
+
+        .status-empty {
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        .status-reachable {
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .status-unreachable {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        .status-no-gpa {
+            color: #000000;
+            font-weight: bold;
+        }
+
+        .row-empty {
+            background-color: #e3f2fd;
+            color: #007bff;
+        }
+
+        .row-reachable {
+            background-color: #e8f5e9;
+            color: #28a745;
+        }
+
+        .row-unreachable {
+            background-color: #ffebee;
+            color: #dc3545;
+        }
+
+        .row-no-gpa {
+            background-color: #f5f5f5;
+            color: #000000;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 992px) {
+            .grid-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .legend-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 12px;
+            }
+
+            .content-area {
+                padding: 20px 16px;
+            }
+
+            .selection-hero {
+                min-height: 330px;
+                padding: 22px;
+            }
+
+            .page-title {
+                font-size: 27px;
+            }
+
+            .page-subtitle {
+                font-size: 14px;
+            }
+
+            .form-card,
+            .side-card,
+            .table-card,
+            .footer-card {
+                border-radius: 18px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .guide-table {
+                font-size: 12px;
+            }
+
+            .top-badge-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .form-card-image {
+                width: 150px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-title {
+                font-size: 23px;
+            }
+
+            .priority-head {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .course-item {
+                padding: 14px;
+            }
+
+            .legend-box {
+                padding: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="page-shell">
+
+        <div class="select-container">
+
+
+            <!-- =========================
+                 HERO
+            ========================== -->
+
+            <div class="selection-hero">
+
+                <img
+                    src="../static/images/select-hero.webp"
+                    class="selection-hero-image"
+                    alt=""
+                >
+
+                <div class="selection-hero-overlay"></div>
+
+                <div class="hero-content">
+
+                    <div class="top-badge-row">
+
+                        <div class="top-badge">
+                            🎯 انتخاب هوشمند اولویت‌ها
+                        </div>
+
+                        <div class="top-badge secondary">
+                            📌 بدون امکان انتخاب تکراری
+                        </div>
+
+                    </div>
+
+                    <div class="page-header">
+
+                        <h2 class="page-title">
+                            انتخاب ۵ اولویت درسی
+                        </h2>
+
+                        <p class="page-subtitle">
+                            لطفاً دروس موردنظر خود را به ترتیب اولویت انتخاب کنید.
+                            سیستم از انتخاب تکراری جلوگیری می‌کند و رنگ‌ها فقط برای
+                            راهنمایی موقت وضعیت هر درس نمایش داده می‌شوند.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 CONTENT
+            ========================== -->
+
+            <div class="content-area">
+
+
+                <div class="notice-box">
+
+                    <div class="notice-title">
+                        ⚠️ توجه مهم
+                    </div>
+
+                    رنگ هر درس فقط بر اساس وضعیت فعلی سیستم محاسبه می‌شود و قطعی نیست.
+                    ممکن است بعداً با تغییر ظرفیت کلاس‌ها، حذف یا اضافه شدن انتخاب سایر دانشجویان،
+                    وضعیت هر درس تغییر کند.
+                    بنابراین این رنگ‌ها فقط راهنمای موقت هستند و نباید تنها ملاک شما برای انتخاب
+                    یا عدم انتخاب درس باشند.
+
+                </div>
+
+
+                <div class="grid-layout">
+
+
+                    <!-- =========================
+                         FORM
+                    ========================== -->
+
+                    <div class="form-card">
+
+                        <img
+                            src="../static/images/select-priority.webp"
+                            class="form-card-image"
+                            alt=""
+                        >
+
+                        <div class="form-card-content">
+
+                            <h3 class="card-title">
+                                فرم ثبت اولویت‌ها
+                            </h3>
+
+                            <p class="card-subtitle">
+                                هر اولویت را با دقت انتخاب کنید.
+                                انتخاب‌های شما باید منحصربه‌فرد باشند و به ترتیب اهمیت چیده شوند.
+                            </p>
+
+
+                            <form
+                                action="/select-courses"
+                                method="POST"
+                                id="courseForm"
+                            >
+
+                                <div class="priorities-stack">
+
+                                    {% for i in range(1, 6) %}
+
+                                    <div class="course-item">
+
+                                        <div class="priority-head">
+
+                                            <div class="priority-label">
+
+                                                <span class="priority-number">
+                                                    {{ i }}
+                                                </span>
+
+                                                <span>
+                                                    اولویت {{ i }}
+                                                </span>
+
+                                            </div>
+
+                                            <div class="priority-hint">
+                                                انتخاب منحصربه‌فرد
+                                            </div>
+
+                                        </div>
+
+
+                                        <label for="priority-{{ i }}">
+                                            درس موردنظر را انتخاب کنید
+                                        </label>
+
+
+                                        <div class="select-wrap">
+
+                                            <select
+                                                id="priority-{{ i }}"
+                                                name="course_priority"
+                                                class="priority-select"
+                                                onchange="updateSelections()"
+                                            >
+
+                                                <option value="">
+                                                    -- یک درس انتخاب کنید --
+                                                </option>
+
+
+                                                {% for course in courses %}
+
+                                                    <option
+                                                        value="{{ course.id }}"
+                                                        class="{{ 'status-' + statuses[course.id].status }}"
+
+                                                        {% if user_selected|length >= i and user_selected[i-1] == course.id %}
+                                                            selected
+                                                        {% endif %}
+                                                    >
+
+                                                        {{ course.name }}
+                                                        |
+                                                        ظرفیت:
+                                                        {{ statuses[course.id].capacity }}
+
+                                                    </option>
+
+                                                {% endfor %}
+
+                                            </select>
+
+                                        </div>
+
+                                    </div>
+
+                                    {% endfor %}
+
+                                </div>
+
+
+                                <div class="button-group">
+
+                                    <button
+                                        type="submit"
+                                        class="btn btn-green"
+                                    >
+                                        ✅ ثبت نهایی اولویت‌ها
+                                    </button>
+
+
+                                    <a
+                                        href="/panel"
+                                        class="btn btn-gray"
+                                    >
+                                        ↩️ انصراف و بازگشت
+                                    </a>
+
+                                </div>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =========================
+                         SIDE GUIDE
+                    ========================== -->
+
+                    <div class="side-card">
+
+                        <img
+                            src="../static/images/select-guide.webp"
+                            class="side-card-image"
+                            alt=""
+                        >
+
+                        <div class="side-card-content">
+
+                            <h3 class="card-title">
+                                راهنمای سریع
+                            </h3>
+
+                            <p class="card-subtitle">
+                                این بخش کمک می‌کند سریع‌تر تصمیم بگیرید و معنی رنگ‌ها را بهتر متوجه شوید.
+                            </p>
+
+
+                            <div class="side-list">
+
+                                <div class="info-chip">
+
+                                    <div class="info-chip-title">
+                                        اولویت‌بندی بهتر
+                                    </div>
+
+                                    <div class="info-chip-text">
+                                        دروسی را که برایتان مهم‌تر هستند در اولویت‌های بالاتر قرار دهید
+                                        تا شانس بررسی آن‌ها زودتر لحاظ شود.
+                                    </div>
+
+                                </div>
+
+
+                                <div class="info-chip">
+
+                                    <div class="info-chip-title">
+                                        ظرفیت‌ها پویا هستند
+                                    </div>
+
+                                    <div class="info-chip-text">
+                                        ظرفیت باقی‌مانده و وضعیت کلاس‌ها ممکن است با ثبت یا حذف انتخاب
+                                        سایر دانشجویان تغییر کند.
+                                    </div>
+
+                                </div>
+
+
+                                <div class="info-chip">
+
+                                    <div class="info-chip-title">
+                                        انتخاب تکراری مجاز نیست
+                                    </div>
+
+                                    <div class="info-chip-text">
+                                        به‌محض انتخاب یک درس، همان درس در سایر فهرست‌ها غیرفعال می‌شود
+                                        تا انتخاب شما یکتا بماند.
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="mini-legend">
+
+                                {% if effective_gpa is not none %}
+
+                                    <div class="mini-legend-item">
+
+                                        <span class="mini-dot dot-blue"></span>
+
+                                        <span class="mini-legend-text">
+                                            آبی: کلاس ظرفیت خالی دارد.
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="mini-legend-item">
+
+                                        <span class="mini-dot dot-green"></span>
+
+                                        <span class="mini-legend-text">
+                                            سبز: شانس قبولی مناسب‌تر ارزیابی شده است.
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="mini-legend-item">
+
+                                        <span class="mini-dot dot-red"></span>
+
+                                        <span class="mini-legend-text">
+                                            قرمز: شانس قبولی پایین‌تر از حد لازم است.
+                                        </span>
+
+                                    </div>
+
+                                {% else %}
+
+                                    <div class="mini-legend-item">
+
+                                        <span class="mini-dot dot-black"></span>
+
+                                        <span class="mini-legend-text">
+                                            سیاه: به دلیل نبود معدل، شانس‌سنجی رنگی غیرفعال است.
+                                        </span>
+
+                                    </div>
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="soft-divider"></div>
+
+
+                <!-- =========================
+                     TABLE
+                ========================== -->
+
+                <div class="table-card">
+
+                    <img
+                        src="../static/images/select-table.webp"
+                        class="table-background-image"
+                        alt=""
+                    >
+
+                    <div class="table-card-content">
+
+                        <div class="table-header">
+
+                            <div>
+
+                                <h3 class="section-title">
+                                    📊 وضعیت کلی دروس
+                                </h3>
+
+                                <p class="table-subtitle">
+                                    این جدول نمایی کلی از ظرفیت و وضعیت فعلی هر درس ارائه می‌دهد.
+                                </p>
+                                <p class="table-subtitle">
+                                    اگر با گوشی، درحال مشاهده صفحه هستید، احتمالا جدول براتون ناقص نشون داده می‌شه. با اسکرول کردن جدول به چپ و راست، می‌تونید بقیه قسمت‌های جدولو هم ببینید.                                   
+                                </p>
+                            </div>
+
+                        </div>
+
+
+                        <div class="table-wrapper">
+
+                            <table class="guide-table">
+
+                                <thead>
+
+                                    <tr>
+
+                                        <th>نام درس</th>
+
+                                        <th>ظرفیت کل</th>
+
+                                        <th>ظرفیت باقی‌مانده</th>
+
+                                        <th>وضعیت فعلی</th>
+
+                                    </tr>
+
+                                </thead>
+
+
+                                <tbody>
+
+                                    {% for course in courses %}
+
+                                    <tr
+                                        class="{{ 'row-' + statuses[course.id].status }}"
+                                    >
+
+                                        <td class="course-name-cell">
+                                            {{ course.name }}
+                                        </td>
+
+
+                                        <td>
+
+                                            <span class="capacity-badge">
+
+                                                {{ statuses[course.id].capacity }}
+
+                                            </span>
+
+                                        </td>
+
+
+                                        <td>
+
+                                            <span class="remaining-badge">
+
+                                                {{ statuses[course.id].remaining }}
+
+                                            </span>
+
+                                        </td>
+
+
+                                        <td>
+
+                                            {{ statuses[course.id].info }}
+
+                                        </td>
+
+                                    </tr>
+
+                                    {% endfor %}
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+
+                        <div class="legend-box">
+
+                            <div class="legend-title">
+                                راهنمای وضعیت رنگ‌ها
+                            </div>
+
+
+                            <div class="legend-grid">
+
+                                {% if effective_gpa is not none %}
+
+
+                                    <div class="legend-item">
+
+                                        <div class="legend-icon status-empty">
+                                            🔵
+                                        </div>
+
+                                        <div class="legend-text">
+
+                                            <span class="status-empty">
+                                                آبی:
+                                            </span>
+
+                                            کلاس دارای ظرفیت خالی است.
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="legend-item">
+
+                                        <div class="legend-icon status-reachable">
+                                            🟢
+                                        </div>
+
+                                        <div class="legend-text">
+
+                                            <span class="status-reachable">
+                                                سبز:
+                                            </span>
+
+                                            کلاس پر شده ولی رتبه/معدل شما از آخرین قبولی بهتر است.
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="legend-item">
+
+                                        <div class="legend-icon status-unreachable">
+                                            🔴
+                                        </div>
+
+                                        <div class="legend-text">
+
+                                            <span class="status-unreachable">
+                                                قرمز:
+                                            </span>
+
+                                            کلاس پر شده و رتبه/معدل شما به آخرین قبولی نمی‌رسد.
+
+                                        </div>
+
+                                    </div>
+
+
+                                {% else %}
+
+
+                                    <div
+                                        class="legend-item"
+                                        style="grid-column: 1 / -1;"
+                                    >
+
+                                        <div class="legend-icon status-no-gpa">
+                                            ⚫
+                                        </div>
+
+                                        <div class="legend-text">
+
+                                            <span class="status-no-gpa">
+                                                سیاه خنثی:
+                                            </span>
+
+                                            به دلیل عدم ثبت معدل، شانس‌سنجی رنگی غیرفعال است
+                                            و فقط ظرفیت/وضعیت کلاس نمایش داده می‌شود.
+
+                                        </div>
+
+                                    </div>
+
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================
+                     FOOTER
+                ========================== -->
+
+                <div class="footer-card">
+
+                    <p class="footer-note">
+
+                        ظرفیت‌ها و وضعیت‌ها بر اساس آخرین داده‌های ثبت‌شده محاسبه می‌شوند
+                        و ممکن است با تغییر انتخاب سایر دانشجویان یا به‌روزرسانی ظرفیت کلاس‌ها
+                        دستخوش تغییر شوند.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        function updateSelections() {
+
+            const selects =
+                document.querySelectorAll('.priority-select');
+
+
+            const selectedValues =
+                Array.from(selects)
+                    .map(s => s.value)
+                    .filter(v => v !== "");
+
+
+            selects.forEach(select => {
+
+                const options =
+                    select.querySelectorAll('option');
+
+
+                options.forEach(opt => {
+
+                    if (opt.value === "") return;
+
+
+                    opt.disabled =
+                        selectedValues.includes(opt.value)
+                        &&
+                        select.value !== opt.value;
+
+                });
+
+            });
+
+        }
+
+
+        updateSelections();
+
+    </script>
+
+</body>
+</html>
