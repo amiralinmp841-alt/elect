@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>توضیحات دروس | سامانه الکتیو</title>
+
+    <style>
+        :root {
+            --bg-1: #eef2ff;
+            --bg-2: #f8fafc;
+            --bg-3: #ecfeff;
+
+            --primary: #4f46e5;
+            --primary-2: #6366f1;
+            --blue: #2563eb;
+            --cyan: #06b6d4;
+            --purple: #a855f7;
+
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --text-soft: #475569;
+
+            --glass: rgba(255, 255, 255, 0.54);
+            --glass-strong: rgba(255, 255, 255, 0.78);
+            --border: rgba(255, 255, 255, 0.78);
+
+            --shadow-sm: 0 4px 14px rgba(15, 23, 42, 0.06);
+            --shadow-md: 0 14px 30px rgba(15, 23, 42, 0.08);
+            --shadow-lg: 0 24px 60px rgba(15, 23, 42, 0.10);
+
+            --radius-xl: 20px;
+            --radius-2xl: 28px;
+            --radius-3xl: 34px;
+
+            --font-family:
+                system-ui,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                "Helvetica Neue",
+                Arial,
+                sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            min-height: 100%;
+        }
+
+        body {
+            font-family: var(--font-family);
+            color: var(--text-main);
+            overflow-x: hidden;
+            min-height: 100vh;
+            padding: 22px 16px;
+
+            background:
+                radial-gradient(circle at top right,
+                    rgba(168, 85, 247, 0.16),
+                    transparent 28%),
+                radial-gradient(circle at top left,
+                    rgba(59, 130, 246, 0.14),
+                    transparent 26%),
+                radial-gradient(circle at bottom center,
+                    rgba(6, 182, 212, 0.10),
+                    transparent 25%),
+                linear-gradient(135deg,
+                    var(--bg-1),
+                    var(--bg-2) 45%,
+                    var(--bg-3));
+        }
+
+        /* =========================
+           BACKGROUND GRID
+        ========================== */
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.22) 1px,
+                    transparent 1px),
+                linear-gradient(90deg,
+                    rgba(255, 255, 255, 0.22) 1px,
+                    transparent 1px);
+
+            background-size: 42px 42px;
+
+            mask-image:
+                linear-gradient(to bottom,
+                    rgba(0, 0, 0, 0.22),
+                    transparent 75%);
+
+            opacity: 0.35;
+            z-index: 0;
+        }
+
+        .page-shell {
+            width: 100%;
+            max-width: 1080px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* =========================
+           FLOATING GLOWS
+        ========================== */
+
+        .floating-accent {
+            position: fixed;
+            width: 360px;
+            height: 360px;
+            border-radius: 50%;
+            filter: blur(90px);
+            opacity: 0.75;
+            pointer-events: none;
+            z-index: -1;
+            animation: floatGlow 10s ease-in-out infinite;
+        }
+
+        .accent-blue {
+            top: -90px;
+            left: -110px;
+            background: rgba(59, 130, 246, 0.18);
+        }
+
+        .accent-purple {
+            right: -110px;
+            bottom: -110px;
+            background: rgba(168, 85, 247, 0.16);
+            animation-delay: -5s;
+        }
+
+        @keyframes floatGlow {
+
+            0%,
+            100% {
+                transform: translate3d(0, 0, 0) scale(1);
+            }
+
+            50% {
+                transform: translate3d(18px, -12px, 0) scale(1.06);
+            }
+        }
+
+        /* =========================
+           MAIN PANEL
+        ========================== */
+
+        .panel-frame {
+            position: relative;
+
+            background:
+                linear-gradient(180deg,
+                    rgba(255, 255, 255, 0.62),
+                    rgba(255, 255, 255, 0.36));
+
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+
+            border: 1px solid var(--border);
+            border-radius: var(--radius-3xl);
+
+            box-shadow:
+                0 30px 80px rgba(15, 23, 42, 0.10),
+                inset 0 1px 0 rgba(255, 255, 255, 0.75);
+
+            overflow: hidden;
+        }
+
+        .panel-frame::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+
+            background:
+                linear-gradient(135deg,
+                    rgba(255, 255, 255, 0.18),
+                    transparent 28%),
+                linear-gradient(to bottom,
+                    rgba(255, 255, 255, 0.08),
+                    transparent 20%);
+
+            pointer-events: none;
+        }
+
+        .panel-container {
+            position: relative;
+            padding: 30px;
+        }
+
+        /* =========================
+           HERO HEADER
+        ========================== */
+
+        .panel-header {
+            position: relative;
+            margin-bottom: 26px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .title-wrap {
+            flex: 1;
+            min-width: 280px;
+        }
+
+        .hero-content {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .hero-text {
+            flex: 1;
+            min-width: 0;
+        }
+
+        /* =========================
+           HERO IMAGE
+        ========================== */
+
+        .hero-image {
+            width: 180px;
+            height: 140px;
+            object-fit: contain;
+            flex-shrink: 0;
+
+            /* گوشه‌های نرم تصویر */
+            border-radius: 26px;
+
+            filter:
+                drop-shadow(0 18px 26px rgba(37, 99, 235, 0.12));
+
+            animation: heroFloat 6s ease-in-out infinite;
+
+            /* نرم‌تر شدن ظاهر تصویر */
+            overflow: hidden;
+        }
+
+        @keyframes heroFloat {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-7px);
+            }
+        }
+
+        .hero-strip {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+
+            padding: 7px 13px;
+
+            border-radius: 999px;
+
+            font-size: 12px;
+            font-weight: 800;
+
+            color: white;
+
+            background:
+                linear-gradient(135deg,
+                    var(--primary-2),
+                    var(--primary));
+
+            box-shadow:
+                0 10px 24px rgba(79, 70, 229, 0.22);
+        }
+
+        .hero-badge.secondary {
+            color: var(--text-soft);
+
+            background: rgba(255, 255, 255, 0.72);
+
+            border: 1px solid rgba(148, 163, 184, 0.14);
+
+            box-shadow:
+                0 8px 18px rgba(15, 23, 42, 0.04);
+        }
+
+        .title-wrap h1 {
+            font-size: clamp(24px, 4vw, 34px);
+            line-height: 1.15;
+            font-weight: 950;
+            letter-spacing: -0.8px;
+            margin-bottom: 10px;
+
+            background:
+                linear-gradient(135deg,
+                    #0f172a,
+                    #1d4ed8 75%,
+                    #7c3aed);
+
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .title-wrap p {
+            font-size: 14px;
+            line-height: 1.9;
+            color: var(--text-muted);
+            max-width: 760px;
+        }
+
+        /* =========================
+           HEADER ACTION
+        ========================== */
+
+        .header-action {
+            flex-shrink: 0;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+
+            padding: 12px 18px;
+
+            border-radius: 16px;
+
+            text-decoration: none;
+
+            font-size: 14px;
+            font-weight: 800;
+
+            transition:
+                transform 0.22s ease,
+                box-shadow 0.22s ease,
+                filter 0.22s ease,
+                background 0.22s ease;
+
+            will-change: transform;
+
+            border: 1px solid rgba(255, 255, 255, 0.55);
+
+            box-shadow:
+                0 10px 22px rgba(37, 99, 235, 0.16);
+
+            white-space: nowrap;
+        }
+
+        .btn-blue {
+            color: white;
+
+            background:
+                linear-gradient(135deg,
+                    #3b82f6,
+                    #4f46e5);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.03);
+
+            box-shadow:
+                0 16px 32px rgba(37, 99, 235, 0.24);
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        /* =========================
+           COURSE LIST
+        ========================== */
+
+        .content {
+            position: relative;
+        }
+
+        .course-list-wrap {
+            display: grid;
+            gap: 12px;
+
+            animation:
+                fadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* =========================
+           COURSE CARD
+        ========================== */
+
+        .desc-card {
+            position: relative;
+            overflow: hidden;
+
+            border-radius: 18px;
+
+            background:
+                linear-gradient(180deg,
+                    rgba(255, 255, 255, 0.76),
+                    rgba(255, 255, 255, 0.52));
+
+            border: 1px solid rgba(255, 255, 255, 0.82);
+
+            box-shadow: var(--shadow-sm);
+
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+
+            transition:
+                transform 0.24s ease,
+                box-shadow 0.24s ease,
+                border-color 0.24s ease,
+                background 0.24s ease;
+        }
+
+        .desc-card::before {
+            content: "";
+
+            position: absolute;
+            inset: 0 auto auto 0;
+
+            width: 100%;
+            height: 4px;
+
+            background:
+                linear-gradient(90deg,
+                    var(--blue),
+                    var(--primary),
+                    var(--purple),
+                    var(--cyan));
+
+            opacity: 0.95;
+        }
+
+        .desc-card::after {
+            content: "";
+
+            position: absolute;
+            inset: 0;
+
+            background:
+                radial-gradient(circle at 20% 0%,
+                    rgba(255, 255, 255, 0.45),
+                    transparent 38%);
+
+            pointer-events: none;
+
+            opacity: 0;
+
+            transition: opacity 0.28s ease;
+        }
+
+        .desc-card:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                var(--shadow-md),
+                0 16px 30px rgba(15, 23, 42, 0.06);
+
+            border-color: rgba(255, 255, 255, 0.94);
+
+            background:
+                linear-gradient(180deg,
+                    rgba(255, 255, 255, 0.86),
+                    rgba(255, 255, 255, 0.62));
+        }
+
+        .desc-card.is-open {
+            border-color: rgba(99, 102, 241, 0.22);
+            box-shadow:
+                0 16px 38px rgba(79, 70, 229, 0.12),
+                inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        }
+
+        .desc-card:hover::after {
+            opacity: 1;
+        }
+
+        .desc-header {
+            position: relative;
+            z-index: 2;
+
+            display: flex;
+            align-items: center;
+            gap: 14px;
+
+            min-height: 76px;
+            padding: 10px 16px 10px 18px;
+
+            cursor: pointer;
+            user-select: none;
+
+            transition:
+                background 0.22s ease,
+                padding 0.22s ease;
+        }
+
+        .desc-header:hover {
+            background: rgba(255, 255, 255, 0.22);
+        }
+
+        .desc-header:focus-visible {
+            outline: 3px solid rgba(79, 70, 229, 0.22);
+            outline-offset: -3px;
+            border-radius: 14px;
+        }
+
+        .course-chevron {
+            margin-right: auto;
+            flex: 0 0 auto;
+
+            width: 34px;
+            height: 34px;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 11px;
+
+            color: var(--primary);
+            background: rgba(99, 102, 241, 0.09);
+            border: 1px solid rgba(99, 102, 241, 0.10);
+
+            font-size: 17px;
+            line-height: 1;
+
+            transition:
+                transform 0.28s ease,
+                background 0.22s ease,
+                color 0.22s ease;
+        }
+
+        .desc-card.is-open .course-chevron {
+            transform: rotate(180deg);
+            color: white;
+            background: linear-gradient(135deg, var(--primary-2), var(--primary));
+        }
+
+        /* =========================
+           COURSE ICON
+        ========================== */
+
+        .course-icon-badge {
+            width: 56px;
+            height: 56px;
+
+            flex-shrink: 0;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 18px;
+
+            background:
+                linear-gradient(135deg,
+                    rgba(239, 246, 255, 0.96),
+                    rgba(219, 234, 254, 0.74));
+
+            border: 1px solid rgba(255, 255, 255, 0.95);
+
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.85),
+                0 12px 24px rgba(59, 130, 246, 0.10);
+
+            overflow: hidden;
+        }
+
+        .course-icon-badge img {
+            width: 38px;
+            height: 38px;
+
+            object-fit: contain;
+
+            /* گوشه‌های نرم خود تصویر */
+            border-radius: 12px;
+
+            transition:
+                transform 0.3s ease,
+                filter 0.3s ease;
+        }
+
+        .desc-card:hover .course-icon-badge img {
+            transform: scale(1.06);
+        }
+
+        .course-name-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            min-width: 0;
+        }
+
+        .course-name-tag {
+            font-size: 18px;
+            font-weight: 900;
+            color: var(--text-main);
+            line-height: 1.3;
+            letter-spacing: -0.4px;
+        }
+
+        .course-meta {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* =========================
+           DESCRIPTION
+        ========================== */
+
+        .desc-body {
+            margin-right: 70px;
+            padding-right: 14px;
+
+            border-right:
+                1px solid rgba(148, 163, 184, 0.16);
+
+            font-size: 14.7px;
+            line-height: 2.05;
+
+            color: var(--text-soft);
+
+            white-space: pre-line;
+        }
+
+        .desc-content {
+            display:grid;
+            grid-template-rows:0fr;
+            opacity:0;
+            transition:grid-template-rows .38s cubic-bezier(.4,0,.2,1),opacity .22s ease;
+        }
+        .desc-content > .desc-body { min-height:0; overflow:hidden; }
+        .desc-card.is-open .desc-content { grid-template-rows:1fr; opacity:1; }
+
+        .desc-body {
+            margin:0 14px 16px;
+            padding:18px 20px;
+            border:1px solid rgba(99,102,241,.10);
+            border-radius:17px;
+            background:linear-gradient(135deg,rgba(248,250,252,.92),rgba(239,246,255,.68));
+            box-shadow:inset 0 1px 0 rgba(255,255,255,.85),0 8px 20px rgba(15,23,42,.035);
+            font-size:14.5px;
+            line-height:2.15;
+            color:#475569;
+            text-align:right;
+            white-space:pre-line;
+            overflow-wrap:anywhere;
+            word-break:normal;
+        }
+        .desc-card.is-open .desc-body { padding-bottom:20px; }
+        .desc-body strong { color:var(--text-main); font-weight:850; }
+        .desc-body br { line-height:2.3; }
+        .desc-body::before {
+            content:"توضیحات درس";
+            display:block;
+            margin-bottom:10px;
+            font-size:12px;
+            font-weight:850;
+            color:var(--primary);
+        }
+
+        .no-desc {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            padding: 9px 14px;
+
+            border-radius: 999px;
+
+            color: #64748b;
+
+            background:
+                rgba(148, 163, 184, 0.08);
+
+            border:
+                1px dashed rgba(148, 163, 184, 0.28);
+
+            font-size: 13px;
+            font-style: italic;
+        }
+
+        /* =========================
+           SMALL IMAGE PANEL
+        ========================== */
+
+        .course-visual {
+            position: absolute;
+
+            left: 18px;
+            bottom: 16px;
+
+            width: 82px;
+            height: 68px;
+
+            opacity: 0.72;
+
+            pointer-events: none;
+
+            transition:
+                transform 0.3s ease,
+                opacity 0.3s ease;
+
+            /* جلوگیری از بیرون‌زدگی گوشه‌های تصویر */
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .course-visual img {
+            width: 100%;
+            height: 100%;
+
+            object-fit: contain;
+
+            /* گوشه‌های نرم تصویر */
+            border-radius: 18px;
+
+            filter:
+                drop-shadow(0 10px 16px rgba(37, 99, 235, 0.10));
+
+            transition:
+                transform 0.3s ease;
+        }
+
+        .desc-card:hover .course-visual {
+            opacity: 0.95;
+            transform: translateY(-4px) rotate(-2deg);
+        }
+
+        .desc-card:hover .course-visual img {
+            transform: scale(1.04);
+        }
+
+        /* =========================
+           FOOTER
+        ========================== */
+
+        .panel-footer {
+            margin-top: 26px;
+            padding-top: 18px;
+
+            border-top:
+                1px solid rgba(255, 255, 255, 0.5);
+
+            text-align: center;
+        }
+
+        .footer-bottom-line {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        .panel-footer::before {
+            content: "✦";
+
+            display: block;
+
+            color:
+                rgba(99, 102, 241, 0.45);
+
+            font-size: 14px;
+
+            margin-bottom: 10px;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================== */
+
+        @media (max-width: 850px) {
+
+            .hero-content {
+                align-items: flex-start;
+            }
+
+            .hero-image {
+                width: 140px;
+                height: 110px;
+                border-radius: 22px;
+            }
+        }
+
+        @media (max-width: 768px) {
+
+            body {
+                padding: 10px;
+            }
+
+            .panel-container {
+                padding: 18px;
+            }
+
+            .panel-frame {
+                border-radius: 24px;
+            }
+
+            .top-bar {
+                flex-direction: column;
+            }
+
+            .hero-content {
+                width: 100%;
+            }
+
+            .hero-image {
+                width: 120px;
+                height: 95px;
+                border-radius: 20px;
+            }
+
+            .header-action,
+            .btn {
+                width: 100%;
+            }
+
+            .desc-card {
+                padding: 0;
+            }
+
+            .desc-header {
+                align-items: center;
+                min-height: 68px;
+                padding: 8px 12px;
+            }
+
+            .desc-body {
+                margin: 0 10px 12px;
+                padding: 15px 14px;
+                border-radius: 15px;
+                font-size: 13.8px;
+                line-height: 2.05;
+            }
+
+            .course-icon-badge {
+                width: 46px;
+                height: 46px;
+                border-radius: 16px;
+            }
+
+            .course-icon-badge img {
+                width: 32px;
+                height: 32px;
+                border-radius: 10px;
+            }
+
+            .course-name-tag {
+                font-size: 16px;
+            }
+
+            .course-visual {
+                display: none;
+            }
+        }
+
+        @media (max-width: 520px) {
+
+            .hero-content {
+                flex-direction: column-reverse;
+            }
+
+            .hero-image {
+                width: 130px;
+                height: 90px;
+                align-self: center;
+                border-radius: 20px;
+            }
+
+            .hero-strip {
+                gap: 6px;
+            }
+
+            .hero-badge {
+                font-size: 11px;
+                padding: 6px 10px;
+            }
+
+            .title-wrap h1 {
+                font-size: 25px;
+            }
+
+            .title-wrap p {
+                font-size: 13px;
+            }
+        }
+
+        /* =========================
+           REDUCED MOTION
+        ========================== */
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.001ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.001ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="floating-accent accent-blue"></div>
+    <div class="floating-accent accent-purple"></div>
+
+    <div class="page-shell">
+
+        <div class="panel-frame">
+
+            <div class="panel-container">
+
+                <!-- =========================
+                     HEADER
+                ========================== -->
+
+                <div class="panel-header">
+
+                    <div class="top-bar">
+
+                        <div class="title-wrap">
+
+                            <div class="hero-content">
+
+                                <div class="hero-text">
+
+                                    <div class="hero-strip">
+
+                                        <div class="hero-badge">
+                                            📖 راهنمای دروس
+                                        </div>
+
+                                        <!--<div class="hero-badge secondary">
+                                            محتوای آموزشی
+                                        </div> -->
+
+                                        <div class="hero-badge secondary">
+                                            {{ courses|length }} درس
+                                        </div>
+
+                                    </div>
+
+                                    <h1>
+                                        توضیحات کلاس‌ها
+                                    </h1>
+
+                                    <!--<p>
+                                        در این بخش می‌توانید توضیحات تکمیلی هر درس را ببینید؛
+                                        توضیحاتی که توسط ادمین ثبت شده و برای انتخاب آگاهانه‌تر
+                                        دروس در دسترس شماست.
+                                    </p>  -->
+
+                                </div>
+
+                                <img src="../static/images/courses_hero.png" alt="راهنمای دروس" class="hero-image">
+
+                            </div>
+
+                        </div>
+
+                        <div class="header-action">
+
+                            <a href="/panel" class="btn btn-blue">
+                                🔙 بازگشت به داشبورد
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- =========================
+                     COURSES
+                ========================== -->
+
+                <div class="content">
+
+                    <div class="course-list-wrap">
+
+                        {% for course in courses %}
+
+                        <div class="desc-card" style="animation-delay: {{ loop.index0 * 0.05 }}s;">
+
+                            <div class="desc-header">
+
+                                <div class="course-icon-badge">
+
+                                    <img src="../static/images/course_learning.png" alt="">
+
+                                </div>
+
+                                <div class="course-name-wrap">
+
+                                    <div class="course-name-tag">
+                                        {{ course.name }}
+                                    </div>
+
+                                    <div class="course-meta">
+                                        کد درس: {{ course.id }}
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="desc-content">
+                                <div class="desc-body">
+
+                                    {% if course.description and course.description.strip() %}
+
+                                    {{ course.description }}
+
+                                    {% else %}
+
+                                    <span class="no-desc">
+                                        📝 هنوز توضیحی برای این درس ثبت نشده است.
+                                    </span>
+
+                                    {% endif %}
+
+                                </div>
+                            </div>
+
+                            <!-- تصویر تزئینی کارت -->
+
+                            <div class="course-visual">
+
+                                <img src="../static/images/course_notes.png" alt="">
+
+                            </div>
+
+                        </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+                <!-- =========================
+                     FOOTER
+                ========================== -->
+
+                <footer class="panel-footer">
+
+                    <!--<div class="footer-bottom-line">
+                        اطلاعات دروس به صورت خودکار از سامانه مدیریت الکتیو دریافت شده است.
+                    </div>-->
+
+                </footer>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+        document.querySelectorAll(".desc-card").forEach((card) => {
+            const header = card.querySelector(".desc-header");
+            const content = card.querySelector(".desc-content");
+
+            if (!header || !content) return;
+
+            header.setAttribute("role", "button");
+            header.setAttribute("tabindex", "0");
+            header.setAttribute("aria-expanded", "false");
+
+            const toggle = () => {
+                const isOpen = card.classList.toggle("is-open");
+                header.setAttribute("aria-expanded", String(isOpen));
+            };
+
+            header.addEventListener("click", toggle);
+
+            header.addEventListener("keydown", (event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    toggle();
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>course_descriptions.html
