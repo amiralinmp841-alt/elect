@@ -1,0 +1,1559 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اطلاعات شخصی</title>
+
+    <style>
+        :root {
+            --blue: #2563eb;
+            --blue-dark: #1d4ed8;
+            --blue-soft: #eff6ff;
+            --blue-glow: rgba(37, 99, 235, 0.18);
+
+            --green: #16a34a;
+            --green-dark: #15803d;
+            --green-soft: #f0fdf4;
+            --green-glow: rgba(22, 163, 74, 0.16);
+
+            --red: #dc2626;
+            --red-dark: #b91c1c;
+            --red-soft: #fef2f2;
+            --red-glow: rgba(220, 38, 38, 0.14);
+
+            --orange: #ea580c;
+            --orange-soft: #fff7ed;
+            --orange-glow: rgba(234, 88, 12, 0.16);
+
+            --purple: #9333ea;
+            --purple-dark: #7e22ce;
+            --purple-soft: #faf5ff;
+            --purple-glow: rgba(147, 51, 234, 0.14);
+
+            --slate-950: #020617;
+            --slate-900: #0f172a;
+            --slate-800: #1e293b;
+            --slate-700: #334155;
+            --slate-600: #475569;
+            --slate-500: #64748b;
+            --slate-400: #94a3b8;
+            --slate-300: #cbd5e1;
+            --slate-200: #e2e8f0;
+            --slate-100: #f1f5f9;
+            --slate-50: #f8fafc;
+
+            --white: #ffffff;
+            --glass-bg: rgba(255, 255, 255, 0.86);
+            --glass-strong: rgba(255, 255, 255, 0.93);
+            --glass-border: rgba(255, 255, 255, 0.70);
+
+            --shadow-2xl: 0 30px 70px rgba(15, 23, 42, 0.14);
+            --shadow-xl: 0 22px 50px rgba(15, 23, 42, 0.12);
+            --shadow-lg: 0 16px 34px rgba(15, 23, 42, 0.09);
+            --shadow-md: 0 10px 24px rgba(15, 23, 42, 0.07);
+            --shadow-sm: 0 6px 16px rgba(15, 23, 42, 0.05);
+
+            --radius-3xl: 34px;
+            --radius-2xl: 28px;
+            --radius-xl: 24px;
+            --radius-lg: 18px;
+            --radius-md: 14px;
+            --radius-sm: 12px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            padding: 28px 14px;
+            font-family: Tahoma, sans-serif;
+            color: var(--slate-900);
+            line-height: 1.85;
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at top right, rgba(37, 99, 235, 0.10), transparent 22%),
+                radial-gradient(circle at top left, rgba(147, 51, 234, 0.08), transparent 18%),
+                radial-gradient(circle at bottom center, rgba(22, 163, 74, 0.06), transparent 22%),
+                linear-gradient(135deg, #eef4fb 0%, #f8fafc 48%, #edf4ff 100%);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before,
+        body::after {
+            content: "";
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.24;
+        }
+
+        body::before {
+            width: 220px;
+            height: 220px;
+            top: -60px;
+            right: -60px;
+            background: rgba(37, 99, 235, 0.22);
+        }
+
+        body::after {
+            width: 220px;
+            height: 220px;
+            bottom: -60px;
+            left: -60px;
+            background: rgba(147, 51, 234, 0.16);
+        }
+
+        .page-shell {
+            position: relative;
+            z-index: 1;
+            max-width: 1080px;
+            margin: 0 auto;
+        }
+
+        .outer-frame {
+            padding: 1px;
+            border-radius: var(--radius-3xl);
+            background: linear-gradient(135deg,
+                    rgba(255, 255, 255, 0.92),
+                    rgba(255, 255, 255, 0.30));
+            box-shadow: var(--shadow-2xl);
+        }
+
+        .container {
+            position: relative;
+            overflow: hidden;
+            background: var(--glass-bg);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-3xl);
+            padding: 0;
+        }
+
+        .container::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 100% 0%,
+                    rgba(37, 99, 235, 0.08),
+                    transparent 20%),
+                radial-gradient(circle at 0% 100%,
+                    rgba(147, 51, 234, 0.08),
+                    transparent 22%);
+            pointer-events: none;
+        }
+
+        .floating-blur {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.18;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .floating-blur.one {
+            width: 160px;
+            height: 160px;
+            background: rgba(37, 99, 235, 0.20);
+            top: 90px;
+            right: -70px;
+        }
+
+        .floating-blur.two {
+            width: 170px;
+            height: 170px;
+            background: rgba(147, 51, 234, 0.15);
+            bottom: 70px;
+            left: -70px;
+        }
+
+        /* =========================
+           Header
+           ========================= */
+
+        .header {
+            position: relative;
+            z-index: 1;
+            padding: 30px;
+            background:
+                linear-gradient(135deg,
+                    rgba(255, 255, 255, 0.97),
+                    rgba(245, 248, 255, 0.95));
+            border-bottom: 1px solid rgba(226, 232, 240, 0.9);
+        }
+
+        .header::after {
+            content: "";
+            position: absolute;
+            left: 28px;
+            right: 28px;
+            bottom: 0;
+            height: 1px;
+            background: linear-gradient(90deg,
+                    transparent,
+                    rgba(37, 99, 235, 0.20),
+                    transparent);
+        }
+
+        .header-top {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 300px;
+            align-items: center;
+            gap: 28px;
+        }
+
+        .title-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .mini-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .mini-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, #eff6ff, #f5f3ff);
+            border: 1px solid #dbeafe;
+            color: #1d4ed8;
+            font-size: 12px;
+            font-weight: 900;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .mini-badge.secondary {
+            background: linear-gradient(135deg, #f0fdf4, #ecfeff);
+            border-color: #d1fae5;
+            color: #15803d;
+        }
+
+        .page-title {
+            margin: 0;
+            font-size: 30px;
+            font-weight: 900;
+            letter-spacing: -0.4px;
+            color: var(--slate-900);
+            line-height: 1.3;
+        }
+
+        .page-subtitle {
+            margin: 0;
+            color: var(--slate-500);
+            font-size: 14px;
+            line-height: 2;
+            max-width: 720px;
+        }
+
+        .header-side {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .header-image {
+            width: 100%;
+            max-width: 290px;
+            height: 165px;
+            object-fit: cover;
+            border-radius: 22px;
+            border: 1px solid rgba(226, 232, 240, 0.95);
+            box-shadow: var(--shadow-lg);
+            background: #f8fafc;
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease;
+        }
+
+        .header-image:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        /* =========================
+           Content
+           ========================= */
+
+        .content {
+            position: relative;
+            z-index: 1;
+            padding: 28px;
+        }
+
+        .alert-stack {
+            display: grid;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .alert {
+            background: linear-gradient(135deg,
+                    #dcfce7 0%,
+                    #bbf7d0 100%);
+            color: #166534;
+            padding: 14px 16px;
+            border-radius: 16px;
+            text-align: center;
+            border: 1px solid #86efac;
+            font-weight: 800;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .notice {
+            position: relative;
+            overflow: hidden;
+            padding: 18px;
+            border-radius: 20px;
+            margin-bottom: 24px;
+            text-align: center;
+            line-height: 2;
+            border: 1px solid;
+            box-shadow: var(--shadow-md);
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .notice::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(120deg,
+                    rgba(255, 255, 255, 0.22),
+                    rgba(255, 255, 255, 0));
+            pointer-events: none;
+        }
+
+        .notice-editable {
+            background: linear-gradient(135deg,
+                    #eff6ff 0%,
+                    #dbeafe 100%);
+            color: #1d4ed8;
+            border-color: #bfdbfe;
+        }
+
+        .notice-locked {
+            background: linear-gradient(135deg,
+                    #fff7ed 0%,
+                    #ffedd5 100%);
+            color: #9a3412;
+            border-color: #fdba74;
+        }
+
+        .section+.section {
+            margin-top: 28px;
+        }
+
+        .section-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 18px;
+            font-weight: 900;
+            color: var(--slate-900);
+        }
+
+        .section-title::before {
+            content: "";
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: linear-gradient(135deg,
+                    var(--blue),
+                    var(--purple));
+            box-shadow:
+                0 0 0 6px rgba(37, 99, 235, 0.08);
+            flex-shrink: 0;
+        }
+
+        .section-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 12px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.80);
+            border: 1px solid var(--slate-200);
+            color: var(--slate-500);
+            font-size: 11px;
+            font-weight: 900;
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* =========================
+           Main Info
+           ========================= */
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1.08fr 0.92fr;
+            gap: 24px;
+        }
+
+        .card {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg,
+                    rgba(255, 255, 255, 0.92),
+                    rgba(248, 250, 252, 0.98));
+            border: 1px solid rgba(226, 232, 240, 0.95);
+            border-radius: 24px;
+            padding: 22px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            top: -40px;
+            left: -40px;
+            width: 120px;
+            height: 120px;
+            background:
+                radial-gradient(circle,
+                    rgba(37, 99, 235, 0.08),
+                    transparent 70%);
+            pointer-events: none;
+        }
+
+        .card::after {
+            content: "";
+            position: absolute;
+            bottom: -50px;
+            right: -35px;
+            width: 150px;
+            height: 150px;
+            background:
+                radial-gradient(circle,
+                    rgba(147, 51, 234, 0.06),
+                    transparent 70%);
+            pointer-events: none;
+        }
+
+        .card-inner {
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-title {
+            margin: 0 0 18px;
+            font-size: 18px;
+            font-weight: 900;
+            color: var(--slate-900);
+            letter-spacing: -0.2px;
+        }
+
+        .card-title-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            margin-bottom: 18px;
+        }
+
+        .card-title-row .card-title {
+            margin: 0;
+        }
+
+        .small-card-image {
+            width: 78px;
+            height: 62px;
+            object-fit: cover;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            box-shadow: var(--shadow-sm);
+            background: #f8fafc;
+        }
+
+        .info-list {
+            display: grid;
+            gap: 12px;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            padding: 14px 15px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.88);
+            border: 1px solid #edf2f7;
+            box-shadow: var(--shadow-sm);
+            transition:
+                transform 0.18s ease,
+                box-shadow 0.22s ease;
+        }
+
+        .info-item:hover {
+            transform: translateY(-2px);
+            box-shadow:
+                0 12px 24px rgba(15, 23, 42, 0.06);
+        }
+
+        .info-label-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 0;
+        }
+
+        .info-icon {
+            width: 34px;
+            height: 34px;
+            min-width: 34px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            background: linear-gradient(135deg,
+                    #f8fafc,
+                    #eef2ff);
+            border: 1px solid #e2e8f0;
+            font-size: 14px;
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.85);
+        }
+
+        .info-label {
+            font-weight: 900;
+            color: var(--slate-700);
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        .info-value {
+            color: var(--slate-900);
+            font-size: 14px;
+            text-align: left;
+            word-break: break-word;
+            font-weight: 700;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 900;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .badge-editable {
+            background: linear-gradient(135deg,
+                    #dcfce7,
+                    #bbf7d0);
+            color: #166534;
+            border: 1px solid #86efac;
+        }
+
+        .badge-locked {
+            background: linear-gradient(135deg,
+                    #fee2e2,
+                    #fecaca);
+            color: #991b1b;
+            border: 1px solid #fca5a5;
+        }
+
+        /* =========================
+           Terms
+           ========================= */
+
+        .terms-panel {
+            display: grid;
+            gap: 14px;
+        }
+
+        .terms-box {
+            background: rgba(255, 255, 255, 0.88);
+            border: 1px solid #edf2f7;
+            border-radius: 18px;
+            padding: 14px;
+            min-height: 120px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .term-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 4px;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 14px;
+        }
+
+        .term-item:last-child {
+            border-bottom: none;
+        }
+
+        .term-name {
+            font-weight: 900;
+            color: var(--slate-700);
+        }
+
+        .term-gpa {
+            color: var(--slate-900);
+            font-weight: 800;
+        }
+
+        .muted-box {
+            background: linear-gradient(135deg,
+                    #f8fafc,
+                    #f1f5f9);
+            border: 1px dashed #cbd5e1;
+            border-radius: 16px;
+            padding: 14px;
+        }
+
+        .muted {
+            color: var(--slate-500);
+            font-size: 13px;
+            line-height: 2;
+            margin: 0;
+        }
+
+        /* =========================
+           Forms
+           ========================= */
+
+        .form-section {
+            margin-top: 30px;
+        }
+
+        .forms-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-card {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg,
+                    rgba(255, 255, 255, 0.92),
+                    rgba(248, 250, 252, 0.98));
+            border: 1px solid rgba(226, 232, 240, 0.95);
+            border-radius: 24px;
+            padding: 22px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .form-card::before {
+            content: "";
+            position: absolute;
+            top: -28px;
+            right: -28px;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background:
+                radial-gradient(circle,
+                    rgba(37, 99, 235, 0.10),
+                    transparent 70%);
+            pointer-events: none;
+        }
+
+        .form-card-inner {
+            position: relative;
+            z-index: 1;
+        }
+
+        .form-card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .form-title-wrap {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 0;
+        }
+
+        .form-image {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 17px;
+            border: 1px solid #dbeafe;
+            box-shadow: var(--shadow-sm);
+            background: #f8fafc;
+            flex-shrink: 0;
+        }
+
+        .form-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 11px;
+            border-radius: 999px;
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            color: #1d4ed8;
+            font-size: 11px;
+            font-weight: 900;
+            white-space: nowrap;
+        }
+
+        .form-subtitle {
+            margin: -8px 0 16px;
+            color: var(--slate-500);
+            font-size: 13px;
+            line-height: 1.9;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 900;
+            color: var(--slate-700);
+            font-size: 14px;
+        }
+
+        .input-wrap {
+            position: relative;
+        }
+
+        .input-wrap::before {
+            content: "";
+            position: absolute;
+            inset: 1px;
+            border-radius: 15px;
+            background: linear-gradient(135deg,
+                    rgba(255, 255, 255, 0.85),
+                    rgba(255, 255, 255, 0.30));
+            pointer-events: none;
+        }
+
+        input[type="text"] {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid #dbe3ec;
+            border-radius: 15px;
+            font-family: Tahoma, sans-serif;
+            font-size: 14px;
+            outline: none;
+            background: rgba(255, 255, 255, 0.92);
+            color: var(--slate-900);
+            transition: all 0.22s ease;
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        }
+
+        input[type="text"]:focus {
+            border-color: #2563eb;
+            box-shadow:
+                0 0 0 4px rgba(37, 99, 235, 0.12),
+                0 10px 24px rgba(37, 99, 235, 0.08);
+            background: #fff;
+        }
+
+        .btn {
+            position: relative;
+            overflow: hidden;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 13px 18px;
+            border-radius: 15px;
+            border: none;
+            cursor: pointer;
+            font-weight: 900;
+            text-decoration: none;
+            transition: all 0.22s ease;
+            font-size: 14px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(120deg,
+                    rgba(255, 255, 255, 0.18),
+                    rgba(255, 255, 255, 0));
+            pointer-events: none;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn:active {
+            transform: scale(0.985);
+        }
+
+        .btn-blue {
+            background: linear-gradient(135deg,
+                    #2563eb 0%,
+                    #1d4ed8 100%);
+            color: #fff;
+        }
+
+        .btn-gray {
+            background: linear-gradient(135deg,
+                    #6b7280 0%,
+                    #4b5563 100%);
+            color: #fff;
+        }
+
+        .footer-actions {
+            margin-top: 26px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .footer-actions .btn {
+            width: 100%;
+        }
+
+        /* =========================
+           Responsive
+           ========================= */
+
+        @media (max-width: 900px) {
+            .header-top {
+                grid-template-columns: 1fr;
+            }
+
+            .header-side {
+                justify-content: flex-start;
+            }
+
+            .header-image {
+                max-width: 100%;
+                height: 180px;
+            }
+
+            .info-grid,
+            .forms-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .content {
+                padding: 22px;
+            }
+
+            .header {
+                padding: 24px 22px 18px;
+            }
+
+            .page-title {
+                font-size: 24px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 12px;
+            }
+
+            .content {
+                padding: 16px;
+            }
+
+            .header {
+                padding: 18px 16px 14px;
+            }
+
+            .page-title {
+                font-size: 22px;
+            }
+
+            .info-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .info-value {
+                text-align: right;
+                width: 100%;
+            }
+
+            .header-top {
+                align-items: stretch;
+            }
+
+            .mini-badges {
+                gap: 8px;
+            }
+
+            .form-card-top {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .form-title-wrap {
+                width: 100%;
+            }
+
+            .form-image {
+                width: 62px;
+                height: 62px;
+            }
+
+            .form-badge {
+                align-self: flex-start;
+            }
+
+            .card-title-row {
+                align-items: flex-start;
+            }
+
+            .small-card-image {
+                width: 66px;
+                height: 54px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="page-shell">
+
+        <div class="outer-frame">
+
+            <div class="container">
+
+                <div class="floating-blur one"></div>
+                <div class="floating-blur two"></div>
+
+                <!-- =========================
+                 Header
+                 ========================= -->
+
+                <div class="header">
+
+                    <div class="header-top">
+
+                        <div class="title-stack">
+
+                            <div class="mini-badges">
+                                <div class="mini-badge">
+                                    👤 پروفایل دانشجو
+                                </div>
+
+                                <div class="mini-badge secondary">
+                                    📘 اطلاعات آموزشی
+                                </div>
+                            </div>
+
+                            <h2 class="page-title">
+                                اطلاعات شخصی
+                            </h2>
+
+                            <p class="page-subtitle">
+                                در این بخش می‌توانید اطلاعات آموزشی، رتبه، معدل کل، معدل تاثیرگذار و وضعیت دسترسی خود را
+                                مشاهده کنید.
+                                امکان ویرایش نام و کد دانشجویی فقط برای کاربران غیرهم‌آوا فعال است.
+                            </p>
+
+                        </div>
+
+                        <div class="header-side">
+
+                            <img src="../static/images/edit-profile.png" alt="" class="header-image">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- =========================
+                 Content
+                 ========================= -->
+
+                <div class="content">
+
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    <div class="alert-stack">
+
+                        {% for message in messages %}
+                        <div class="alert">
+                            {{ message }}
+                        </div>
+                        {% endfor %}
+
+                    </div>
+                    {% endif %}
+                    {% endwith %}
+
+
+                    <!-- =========================
+                     Access Notice
+                     ========================= -->
+
+                    {% if user.mode == 'no_gpa' %}
+
+                    <div class="notice notice-editable">
+
+                        <strong>
+                            حالت ویرایش فعال است.
+                        </strong>
+
+                        <br>
+
+                        شما می‌توانید نام و کد دانشجویی خود را ویرایش کنید.
+
+                    </div>
+
+                    {% else %}
+
+                    <div class="notice notice-locked">
+
+                        <strong>
+                            حساب هم‌آوا
+                        </strong>
+
+                        <br>
+
+                        مشاهده اطلاعات برای شما فعال است، اما ویرایش نام و کد دانشجویی غیرفعال می‌باشد.
+
+                    </div>
+
+                    {% endif %}
+
+
+                    <!-- =========================
+                     Overview
+                     ========================= -->
+
+                    <div class="section">
+
+                        <div class="section-heading">
+
+                            <h3 class="section-title">
+                                نمای کلی اطلاعات
+                            </h3>
+
+                            <div class="section-chip">
+                                خلاصه اطلاعات ثبت‌شده دانشجو
+                            </div>
+
+                        </div>
+
+
+                        <div class="info-grid">
+
+                            <!-- =========================
+                             Main Information
+                             ========================= -->
+
+                            <div class="card">
+
+                                <div class="card-inner">
+
+                                    <div class="card-title-row">
+
+                                        <h3 class="card-title">
+                                            📋 اطلاعات اصلی
+                                        </h3>
+
+                                        <img src="../static/images/edit-profile.png" alt="" class="small-card-image">
+
+                                    </div>
+
+
+                                    <div class="info-list">
+
+                                        <div class="info-item">
+
+                                            <div class="info-label-wrap">
+
+                                                <div class="info-icon">
+                                                    👤
+                                                </div>
+
+                                                <div class="info-label">
+                                                    نام و نام خانوادگی
+                                                </div>
+
+                                            </div>
+
+                                            <div class="info-value">
+                                                {{ user.full_name or 'ثبت نشده' }}
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="info-item">
+
+                                            <div class="info-label-wrap">
+
+                                                <div class="info-icon">
+                                                    🆔
+                                                </div>
+
+                                                <div class="info-label">
+                                                    کد دانشجویی
+                                                </div>
+
+                                            </div>
+
+                                            <div class="info-value">
+                                                {{ user.student_id or 'ثبت نشده' }}
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="info-item">
+
+                                            <div class="info-label-wrap">
+
+                                                <div class="info-icon">
+                                                    📊
+                                                </div>
+
+                                                <div class="info-label">
+                                                    معدل کل
+                                                </div>
+
+                                            </div>
+
+                                            <div class="info-value">
+
+                                                {{
+                                                user.gpa
+                                                if user.gpa not in [None, '', 'null']
+                                                else 'ثبت نشده'
+                                                }}
+
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="info-item">
+
+                                            <div class="info-label-wrap">
+
+                                                <div class="info-icon">
+                                                    📈
+                                                </div>
+
+                                                <div class="info-label">
+                                                    معدل تاثیرگذار در رتبه
+                                                </div>
+
+                                            </div>
+
+                                            <div class="info-value">
+
+                                                {{
+                                                effective_gpa
+                                                if effective_gpa is not none
+                                                else 'ثبت نشده / موجود نیست'
+                                                }}
+
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="info-item">
+
+                                            <div class="info-label-wrap">
+
+                                                <div class="info-icon">
+                                                    🧠
+                                                </div>
+
+                                                <div class="info-label">
+                                                    نوع معدل تاثیرگذار
+                                                </div>
+
+                                            </div>
+
+                                            <div class="info-value">
+                                                {{ effective_label }}
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="info-item">
+
+                                            <div class="info-label-wrap">
+
+                                                <div class="info-icon">
+                                                    🏅
+                                                </div>
+
+                                                <div class="info-label">
+                                                    رتبه
+                                                </div>
+
+                                            </div>
+
+                                            <div class="info-value">
+
+                                                {{
+                                                rank
+                                                if rank not in [None, '', 'null']
+                                                else 'ثبت نشده / محاسبه نشده'
+                                                }}
+
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="info-item">
+
+                                            <div class="info-label-wrap">
+
+                                                <div class="info-icon">
+                                                    🔐
+                                                </div>
+
+                                                <div class="info-label">
+                                                    وضعیت دسترسی
+                                                </div>
+
+                                            </div>
+
+                                            <div class="info-value">
+
+                                                {% if user.mode == 'no_gpa' %}
+
+                                                <span class="badge badge-editable">
+                                                    قابل ویرایش
+                                                </span>
+
+                                                {% else %}
+
+                                                <span class="badge badge-locked">
+                                                    فقط مشاهده
+                                                </span>
+
+                                                {% endif %}
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- =========================
+                             Semester GPA
+                             ========================= -->
+
+                            <div class="card">
+
+                                <div class="card-inner">
+
+                                    <div class="card-title-row">
+
+                                        <h3 class="card-title">
+                                            📚 معدل ترم‌ها
+                                        </h3>
+
+                                        <img src="../static/images/edit-academic.png" alt="" class="small-card-image">
+
+                                    </div>
+
+
+                                    <div class="terms-panel">
+
+                                        <div class="terms-box">
+
+                                            {% if terms_gpa and terms_gpa|length > 0 %}
+
+                                            {% for term_name, term_value in terms_gpa.items() %}
+
+                                            <div class="term-item">
+
+                                                <span class="term-name">
+                                                    {{ term_name }}
+                                                </span>
+
+                                                <span class="term-gpa">
+
+                                                    {{
+                                                    term_value
+                                                    if term_value not in [None, '', 'null']
+                                                    else 'ثبت نشده'
+                                                    }}
+
+                                                </span>
+
+                                            </div>
+
+                                            {% endfor %}
+
+                                            {% else %}
+
+                                            <div class="muted">
+                                                برای این کاربر معدل ترم‌ها ثبت نشده یا در دسترس نیست.
+                                            </div>
+
+                                            {% endif %}
+
+                                        </div>
+
+
+                                        <div class="muted-box">
+
+                                            <p class="muted">
+                                                معدل تاثیرگذار ممکن است بر اساس معدل کل، معدل ترم‌ها یا معدل دستی ادمین
+                                                محاسبه شده باشد.
+                                            </p>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =========================
+                     Editable Forms
+                     ========================= -->
+
+                    {% if user.mode == 'no_gpa' %}
+
+                    <div class="section form-section">
+
+                        <div class="section-heading">
+
+                            <h3 class="section-title">
+                                فرم‌های ویرایش
+                            </h3>
+
+                            <div class="section-chip">
+                                فقط برای کاربران دارای دسترسی ویرایش
+                            </div>
+
+                        </div>
+
+
+                        <div class="forms-grid">
+
+
+                            <!-- =========================
+                             Edit Name
+                             ========================= -->
+
+                            <div class="form-card">
+
+                                <div class="form-card-inner">
+
+                                    <div class="form-card-top">
+
+                                        <div class="form-title-wrap">
+
+                                            <img src="../static/images/edit-name.png" alt="" class="form-image">
+
+                                            <h3 class="card-title" style="margin: 0;">
+                                                ✏️ ویرایش نام و نام خانوادگی
+                                            </h3>
+
+                                        </div>
+
+                                        <div class="form-badge">
+                                            Editable
+                                        </div>
+
+                                    </div>
+
+
+                                    <p class="form-subtitle">
+                                        در این بخش می‌توانید نام و نام خانوادگی ثبت‌شده خود را به‌روزرسانی کنید.
+                                    </p>
+
+
+                                    <form action="/update-name" method="POST">
+
+                                        <div class="form-group">
+
+                                            <label>
+                                                نام و نام خانوادگی
+                                            </label>
+
+                                            <div class="input-wrap">
+
+                                                <input type="text" name="full_name" value="{{ user.full_name }}"
+                                                    required>
+
+                                            </div>
+
+                                        </div>
+
+
+                                        <button type="submit" class="btn btn-blue">
+                                            ثبت نام جدید
+                                        </button>
+
+                                    </form>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- =========================
+                             Edit Student ID
+                             ========================= -->
+
+                            <!--<div class="form-card">
+
+                            <div class="form-card-inner">
+
+                                <div class="form-card-top">
+
+                                    <div class="form-title-wrap">
+
+                                        <img
+                                            src="../static/images/edit-student-id.png"
+                                            alt=""
+                                            class="form-image"
+                                        >
+
+                                        <h3
+                                            class="card-title"
+                                            style="margin: 0;"
+                                        >
+                                            🆔 ویرایش کد دانشجویی
+                                        </h3>
+
+                                    </div>
+
+                                    <div class="form-badge">
+                                        Editable
+                                    </div>
+
+                                </div>
+
+
+                                <p class="form-subtitle">
+                                    در این بخش می‌توانید کد دانشجویی ثبت‌شده خود را اصلاح یا به‌روزرسانی کنید.
+                                </p>
+
+
+                                <form
+                                    action="/update-student-id"
+                                    method="POST"
+                                >
+
+                                    <div class="form-group">
+
+                                        <label>
+                                            کد دانشجویی
+                                        </label>
+
+                                        <div class="input-wrap">
+
+                                            <input
+                                                type="text"
+                                                name="student_id"
+                                                value="{{ user.student_id }}"
+                                                required
+                                            >
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <button
+                                        type="submit"
+                                        class="btn btn-blue"
+                                    >
+                                        ثبت کد دانشجویی جدید
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </div> -->
+
+
+                        </div>
+
+                    </div>
+
+                    {% endif %}
+
+
+                    <!-- =========================
+                     Footer
+                     ========================= -->
+
+                    <div class="footer-actions">
+
+                        <a href="/panel" class="btn btn-gray">
+                            🔙 بازگشت به پنل
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
