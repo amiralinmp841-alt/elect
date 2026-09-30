@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ورود به سامانه انتخاب واحد</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --blue: #2563eb;
+            --green: #16a34a;
+            --text: #172033;
+            --muted: #64748b;
+            --border: #e5e7eb;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Tahoma, Arial, sans-serif;
+            color: var(--text);
+            background: #f4f7fb;
+            padding: 20px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .login-wrapper {
+            width: 100%;
+            max-width: 1050px;
+
+            display: grid;
+            grid-template-columns: 1fr 0.85fr;
+
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 24px;
+            overflow: hidden;
+
+            box-shadow: 0 15px 45px rgba(15, 23, 42, 0.10);
+        }
+
+        /* =========================
+           LOGIN
+        ========================= */
+
+        .login-container {
+            padding: 30px;
+        }
+
+        /* =========================
+           LOGO
+        ========================= */
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 14px;
+        }
+
+        .site-logo {
+            width: 82px;
+            height: 82px;
+
+            object-fit: cover;
+            border-radius: 50%;
+
+            border: 2px solid #fff;
+
+            box-shadow: 0 7px 20px rgba(37, 99, 235, 0.15);
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header h2 {
+            margin: 0 0 7px;
+
+            font-size: 23px;
+            font-weight: 900;
+        }
+
+        .header p {
+            margin: 0;
+
+            font-size: 12px;
+            line-height: 1.9;
+
+            color: var(--muted);
+        }
+
+        /* =========================
+           ALERT
+        ========================= */
+
+        .alert {
+            background: #fef2f2;
+            color: #b91c1c;
+
+            border: 1px solid #fecaca;
+
+            padding: 10px;
+
+            border-radius: 12px;
+
+            margin-bottom: 15px;
+
+            text-align: center;
+
+            font-size: 12px;
+            line-height: 1.8;
+        }
+
+        /* =========================
+           FORM
+        ========================= */
+
+        .form-panel {
+            border: 1px solid var(--border);
+
+            border-radius: 16px;
+
+            padding: 18px;
+
+            background: #fff;
+        }
+
+        .form-title {
+            margin: 0 0 8px;
+
+            font-size: 16px;
+            font-weight: 900;
+        }
+
+        .form-subtitle {
+            margin: 0 0 16px;
+
+            font-size: 12px;
+            line-height: 1.95;
+
+            color: var(--muted);
+        }
+
+        /* =========================
+           INPUTS
+        ========================= */
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+
+            margin-bottom: 13px;
+        }
+
+        label {
+            margin-bottom: 6px;
+
+            font-size: 12px;
+            font-weight: 800;
+
+            color: #334155;
+        }
+
+        input {
+            width: 100%;
+
+            padding: 12px;
+
+            border: 1px solid #dbe1ea;
+            border-radius: 11px;
+
+            outline: none;
+
+            font-family: inherit;
+            font-size: 13px;
+
+            color: var(--text);
+            background: #fff;
+        }
+
+        input:focus {
+            border-color: var(--blue);
+
+            box-shadow:
+                0 0 0 3px rgba(37, 99, 235, 0.08);
+        }
+
+        input::placeholder {
+            color: #94a3b8;
+        }
+
+        /* =========================
+           BUTTON
+        ========================= */
+
+        .submit-btn {
+            width: 100%;
+
+            border: none;
+            border-radius: 11px;
+
+            padding: 12px;
+
+            background: var(--green);
+
+            color: white;
+
+            cursor: pointer;
+
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 900;
+
+            transition: 0.2s;
+        }
+
+        .submit-btn:hover {
+            background: #15803d;
+
+            transform: translateY(-1px);
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .footer {
+            margin-top: 18px;
+
+            padding-top: 14px;
+
+            border-top: 1px solid #e5e7eb;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 10px;
+        }
+
+        .footer-text {
+            font-size: 11px;
+            line-height: 1.8;
+
+            color: var(--muted);
+        }
+
+        .telegram-link {
+            display: inline-flex;
+
+            align-items: center;
+            gap: 6px;
+
+            background: #229ED9;
+
+            color: white;
+
+            text-decoration: none;
+
+            padding: 8px 11px;
+
+            border-radius: 10px;
+
+            font-size: 11px;
+            font-weight: 800;
+
+            white-space: nowrap;
+        }
+
+        .telegram-link img {
+            width: 16px;
+            height: 16px;
+
+            object-fit: contain;
+        }
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .visual-side {
+            position: relative;
+
+            min-height: 100%;
+
+            background: #eaf2ff;
+        }
+
+        .visual-side>img {
+            width: 100%;
+            height: 100%;
+
+            min-height: 650px;
+
+            object-fit: cover;
+
+            display: block;
+        }
+
+        .visual-overlay {
+            position: absolute;
+
+            inset: 0;
+
+            background:
+                linear-gradient(to top,
+                    rgba(15, 23, 42, 0.25),
+                    transparent 60%);
+
+            pointer-events: none;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 850px) {
+
+            .login-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .visual-side {
+                order: -1;
+                height: 230px;
+                min-height: 230px;
+            }
+
+            .visual-side>img {
+                min-height: 230px;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            body {
+                padding: 10px;
+            }
+
+            .login-container {
+                padding: 20px 15px;
+            }
+
+            .site-logo {
+                width: 70px;
+                height: 70px;
+            }
+
+            .header h2 {
+                font-size: 20px;
+            }
+
+            .footer {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .telegram-link {
+                justify-content: center;
+            }
+        }
+    </style>
+
+</head>
+
+
+<body>
+
+    <div class="login-wrapper">
+
+        <!-- =========================
+             LOGIN SECTION
+        ========================== -->
+
+        <div class="login-container">
+
+            <!-- LOGO -->
+
+            <div class="logo-container">
+
+                <img src="../static/images/logo.png" class="site-logo" alt="لوگو">
+
+            </div>
+
+
+            <!-- HEADER -->
+
+            <div class="header">
+
+                <h2>
+                    ورود به سامانه انتخاب واحد
+                </h2>
+
+                <p>
+                    برای ورود، شماره دانشجویی خود را وارد کنید.
+                </p>
+
+            </div>
+
+
+            <!-- FLASH MESSAGES -->
+
+            {% with messages = get_flashed_messages() %}
+
+            {% if messages %}
+
+            {% for message in messages %}
+
+            <div class="alert">
+                {{ message }}
+            </div>
+
+            {% endfor %}
+
+            {% endif %}
+
+            {% endwith %}
+
+
+            <!-- NO GPA FORM -->
+
+            <form id="no-gpa-form" action="/login" method="POST" class="form-panel">
+
+                <input type="hidden" name="login_type" value="no_gpa">
+
+                <p class="form-subtitle">
+
+                    برای ورود به سامانه، شماره دانشجویی خود را وارد کنید.
+
+                    <br><br>
+
+                    اگر اولین ورود شماست، نام و نام خانوادگی خود را نیز وارد کنید.
+
+                </p>
+
+
+                <div class="form-group">
+
+                    <label>
+                        شماره دانشجویی
+                    </label>
+
+                    <input type="text" name="student_id" required inputmode="numeric" autocomplete="off">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        نام و نام خانوادگی (اگر اولین ورودتان است)
+                    </label>
+
+                    <input type="text" name="full_name" placeholder="در صورت ثبت‌نام نکردن قبلی">
+
+                </div>
+
+
+                <button type="submit" class="submit-btn">
+                    ورود
+                </button>
+
+            </form>
+
+
+            <!-- FOOTER -->
+
+            <div class="footer">
+
+                <div class="footer-text">
+
+                    سامانه الکتیو
+
+                    <br>
+
+                    ورودی مهر ۱۴۰۳ پزشکی بهشتی
+
+                </div>
+
+
+                <a href="https://t.me/amiralinmp" target="_blank" class="telegram-link">
+
+                    <img src="../static/images/telegram.png" alt="Telegram">
+
+                    @amiralinmp
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             ONLY ONE HERO IMAGE
+        ========================== -->
+
+        <div class="visual-side">
+
+            <img src="../static/images/login-hero.webp" alt="">
+
+            <div class="visual-overlay"></div>
+
+        </div>
+
+
+    </div>
+
+</body>
+
+</html>
